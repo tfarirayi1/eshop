@@ -61,10 +61,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged: function(page) {
         this.page = page || 'home';
-
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
       },
 
       _pageChanged: function(page) {
