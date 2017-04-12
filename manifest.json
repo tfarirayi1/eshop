@@ -1,0 +1,7 @@
+{
+  "name": "Kiosk Web-Dev",
+  "short_name": "K W-D",
+  "description": "Smart websites for small organisations",
+  "start_url": "/",
+  "display": "standalone"
+}
