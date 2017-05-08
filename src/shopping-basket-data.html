@@ -1,0 +1,105 @@
+<!--
+@tfarirayi1
+Shopping Basket Logic
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
+<dom-module id="shopping-basket-data">
+  <template>
+    <app-localstorage-document key="shop-cart-data" data="{{basket}}"></app-localstorage-document>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shopping-basket-data',
+
+      properties: {
+        basket: {
+          type: Array,
+          value: function() {
+            return [];
+          },
+          notify: true
+        },
+
+        numItems: {
+          type: Number,
+          computed: '_computeNumItems(basket.splices)',
+          notify: true 
+        },
+
+        total: {
+          type: Number,
+          computed: '_computeTotal(basket.splices)',
+          notify: true
+        }
+      },
+
+      addItem: function(detail) {
+        console.log(detail);
+        var i = this._indexOfEntry(detail.item.name, detail.size);
+        if (i !== -1) {
+          detail.quantity += this.basket[i].quantity;
+        }
+        this.setItem(detail);
+      },
+
+      setItem: function(detail) {
+        var i = this._indexOfEntry(detail.item.name, detail.size);
+        if (detail.quantity === 0) {
+          // Remove item from cart when the new quantity is 0.
+          if (i !== -1) {
+            this.splice('basket', i, 1);
+          }
+        } else {
+          // Use Polymer's array mutation methods (`splice`, `push`) so that observers
+          // on `cart.splices` are triggered.
+          if (i !== -1) {
+            this.splice('basket', i, 1, detail);
+          } else {
+            this.push('basket', detail);
+          }
+        }
+      },
+
+      clearBasket: function() {
+        this.basket = [];
+      },
+
+      _indexOfEntry: function(name, size) {
+        if (this.basket) {
+          for (var i = 0; i < this.basket.length; i++) {
+            var entry = this.basket[i];
+            if (entry.item.name === name && entry.size === size) {
+              return i;
+            }
+          }
+        }
+        return -1;
+      },
+
+      _computeNumItems: function() {
+        if (this.basket) {
+          return this.basket.reduce(function(total, entry) {
+            return total + entry.quantity;
+          }, 0);
+        }
+      
+        return 0;
+      },
+
+      _computeTotal: function() {
+        if (this.basket) {
+          return this.basket.reduce(function(total, entry) {
+            return total + entry.quantity * entry.item.price;
+          }, 0);
+        }
+
+        return 0;
+      }
+
+    });
+  </script>
+</dom-module>

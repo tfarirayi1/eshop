@@ -1,0 +1,58 @@
+<!--
+@tfarirayi1
+Shop basket
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shop-basket-item.html">
+
+<dom-module id="shop-basket">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- Dom here -->
+      <span>([[_getPluralizedQuantity(basket.length)]])</span>
+      <template is="dom-repeat" items="[[basket]]" as="entry">
+          <shop-basket-item entry="[[entry]]"></shop-basket-item>
+      </template>
+      
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-basket',
+
+      properties: {
+        total: Number,
+
+        basket: Array,
+
+        _hasItems: {
+          type: Boolean,
+          compute: '_computeHasItem(basket.length)'
+        }
+      },
+
+      attached: function() {
+        console.log(this.basket);
+      },
+
+      _computeHasItem: function(basketLength) {
+        return basketLength > 0;
+      },
+
+      _formatTotal: function(total) {
+        return !total ? '' : '£' + total.toFixed(2);
+      },
+
+      _getPluralizedQuantity: function(quantity) {
+        return quantity + ' ' + (quantity === 1 ? 'item' : 'items');
+      }
+
+    });
+  </script>
+</dom-module>

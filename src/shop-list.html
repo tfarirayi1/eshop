@@ -1,0 +1,37 @@
+<!--
+@tfarirayi1
+Blank element
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="list-item.html">
+
+<dom-module id="shop-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- Dom here -->
+
+    <iron-ajax auto url="data/candy.json" handle-as="json" last-response="{{candy}}"></iron-ajax>
+    <template is="dom-repeat" items="[[candy]]">
+      <list-item 
+          title="[[item.title]]"
+          desc="[[item.desc]]"
+          price="[[item.price]]"
+          thumb="[[item.thumb]]">
+      </list-item>
+    </template>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-list',
+
+    });
+  </script>
+</dom-module>

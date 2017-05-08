@@ -1,0 +1,327 @@
+<!--
+@tfarirayi1
+Shop list item
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="my-icons.html">
+
+
+<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Space+Mono|Playfair+Display|Comfortaa" rel="stylesheet">
+
+<dom-module id="list-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 3px;
+        color: #212121;
+        border-radius: 2px;
+        background-color: #ECEFF1;
+        @apply(--shadow-elevation-2dp);
+      }
+
+      .main {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);        
+      }
+
+      paper-button.details {
+        @apply(--layout-vertical);
+        @apply(--layout-start);   
+        padding-left: 5px;     
+        text-transform: none;
+      }
+
+      paper-button.details:focus {
+        text-decoration: none;
+        font-weight: normal;
+      }
+
+      .title {
+        font-size: 16px;
+        font-family: 'Comfortaa', cursive;       
+        line-height: 140%;
+      }
+
+      .title:hover {
+        /*text-decoration: underline;*/
+      }
+
+      .price {
+        font-family: 'Raleway', sans-serif;
+        font-size: 18px;        
+      }
+
+      iron-icon.arrow {
+        color: #424242;
+      }
+
+      .image {
+        min-width: 60px;
+        max-width: 60px;
+        margin: auto;
+        padding: 5px;
+      }
+
+      img.thumb {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .collapse {
+        padding: 13px;
+        text-align: center;
+      }
+      
+      iron-collapse {
+        background-color: #37474F;
+      }
+
+      .size {
+        margin: 8px 0px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .indicator {
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 1px;
+        margin-top: 5px;
+        padding: 5px;
+        border-radius: 2px;
+        color: #ECEFF1;
+        background-color: rgba(38,50,56 , 0.9);
+        font-family: 'Raleway', sans-serif;  
+        width: fit-content;      
+      }
+
+      paper-radio-group.select-size {
+        --paper-radio-group-item-padding: 5px;
+        padding: 13px 0px;
+      }
+
+      paper-radio-button {
+        font-family: 'Comfortaa', cursive;       
+        --paper-radio-button-size: 14px;
+        --paper-radio-button-label-spacing: 5px;
+        --paper-radio-button-checked-color: #FF8A65;
+        --paper-radio-button-unchecked-color: #FF8A65;
+        --paper-radio-button-unchecked-ink-color: #FF8A65;
+        --paper-radio-button-checked-ink-color: #FF8A65;
+        --paper-radio-button-label: {
+          font-size: 14px;
+          color: #ECEFF1;
+        }
+      }
+
+      .quantity {
+        margin: 8px 0px; 
+        text-align: left;   
+        width: 100%;    
+      }
+
+      paper-slider.select-quantity {
+        --paper-slider-knob-start-color: #FF8A65;
+        --paper-slider-knob-start-border-color: #FF8A65;
+        --paper-slider-knob-color: #FF8A65;
+        --paper-slider-active-color: #FF8A65;
+        --paper-slider-container-color: #212121;
+        --paper-slider-pin-color: #FF8A65;
+        --paper-slider-font-color: rgba(55,71,79 ,1);
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 8px;
+        
+      }
+
+      paper-button.basket {
+        text-transform: uppercase;
+        background-color: #263238;
+        font-family: 'Raleway', sans-serif;        
+        color: #ECEFF1;
+        font-size: 13px;
+        line-height: 80%;
+      }
+
+      paper-button.basket:focus {
+        text-decoration: none;
+      }
+
+      iron-icon.basket {
+        --iron-icon-height: 20px;
+        --iron-icon-width: 20px;
+      }
+
+      /* utilities */
+
+      .spacer {
+        @apply(--layout-flex);
+      }
+
+      u {
+        text-decoration: none;
+        border-bottom: 1px dotted #263238;
+      }
+
+      .sep-title {
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 1px;
+        font-size: 16px;
+        color: #607D8B;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        font-family: 'Space Mono', monospace;
+      }
+    </style>
+    <!-- Dom here -->
+    <!-- Visible div -->
+    <div class="main">
+      <!-- Drop control button -->
+      <paper-button class="details" on-click="toggle" noink>
+        <span class="title">
+          <u>[[title]]</u>
+        </span>
+        <span class="price">
+          £[[price]]
+        </span>
+        <iron-icon class="arrow" icon="{{arrow}}"></iron-icon>
+      </paper-button>
+      
+        <span class="spacer"></span>      
+      <!--<paper-icon-button icon="add-circle"></paper-icon-button>-->
+      <div class="image">
+        <img class="thumb" src="{{thumb}}">
+      </div>
+    </div>
+
+    <!-- Drop div -->
+    <iron-collapse id="collapse">
+      <div class="collapse">
+        <div class="size">
+         <div class="indicator">Size:</div>          
+         <paper-radio-group class="select-size" selected="{{size}}">
+            <paper-radio-button noink name="small">Small</paper-radio-button>
+            <paper-radio-button noink name="medium">Medium</paper-radio-button>
+            <paper-radio-button noink name="large">Large</paper-radio-button>
+          </paper-radio-group>
+        </div>
+
+        <div class="quantity">
+          <div class="indicator">Quantity: [[quantity]]</div>
+          <paper-slider class="select-quantity" immediate-value="{{quantity}}" min="1" max="100"></paper-slider>
+        </div>
+
+        <div class="sep-title">
+          &period;
+        </div>
+
+        <paper-button on-click="_addToCart" class="basket">
+          <iron-icon class="basket" icon="my-icons:shopping-basket"></iron-icon>
+          Add to basket
+        </paper-button>
+      </div>
+    </iron-collapse>
+
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'list-item',
+
+      properties: {
+
+        item: {
+          type: Object,
+          computed: '_computeItem(title)',
+          notify: true
+        },
+        
+        visible: Boolean,
+
+        title: String,
+
+        desc: String,
+
+        price: String,
+
+        thumb: String,
+
+        quantity: {
+          type: Number,
+          value: 1
+        },
+
+        size: {
+          type: String,
+          value: 'small'
+        },
+
+        arrow: {
+          type: String,
+          value: 'my-icons:arrow-drop-down'
+        },
+        
+        dropped: {
+          type: Boolean,
+          value: true,
+          observer: '_arrow'
+        }
+
+      },
+
+      _computeItem: function(title) {
+        return {
+          name: title
+        };
+      },
+
+      toggle: function() {
+          this.$.collapse.toggle();
+          this.dropped = !this.dropped;
+      },
+
+      _arrow: function(newValue, oldValue) {
+        if (newValue) this.arrow = 'my-icons:arrow-drop-down';
+        if (!newValue) this.arrow = 'my-icons:arrow-drop-up';
+      },
+
+      _addToCart: function() {
+        this.fire('add-basket-item', {
+          item: this.item,
+          quantity: parseInt(this.quantity, 10),
+          size: this.size
+        });
+      },
+
+      _clear: function() {
+        this.fire('clear-bsaket', {
+          item: this.item,
+          quantity: parseInt(this.$.quantitySelect.value, 10),
+          size: this.$.sizeSelect.value
+        });
+      },
+
+      formatPrice: function(price) {
+        return price ? '£' + price.toFixed(2) : '';
+      }
+
+    });
+  </script>
+</dom-module>

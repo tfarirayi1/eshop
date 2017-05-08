@@ -1,5 +1,5 @@
 {
-  "name": "blank-app",
+  "name": "eshop-demo",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "eslint": "^3.12.0",

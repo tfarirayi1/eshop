@@ -1,0 +1,59 @@
+<!--
+@tfarirayi1
+Shop basket item
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
+<dom-module id="shop-basket-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- Dom here -->
+    <div class="quantity">
+          <div class="indicator">Quantity: [[entry.quantity]]</div>
+          <paper-slider id="quantity" class="select-quantity" on-change="_quantityChange" value="[[entry.quantity]]" immediate-value="[[entry.quantity]]" min="1" max="100"></paper-slider>
+    </div>
+    <div>[[entry.item.title]]</div>
+    <div class="price">[[_formatPrice(entry.item.price)]]</div>
+    <div class="size">Size: <span>[[entry.size]]</span></div>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-basket-item',
+
+      properties: {
+          entry: Object
+      },
+
+      _formatPrice: function(price) {
+        return price ? '£' + price.toFixed(2) : '';
+      },
+
+      _quantityChange: function() {
+          this._setBasketItem(parseInt(this.$.quantity.immediateValue, 10));
+      },
+
+      _setBasketItem: function(quantity) {
+          this.fire('set-basket-item', {
+              item: this.entry.item,
+              quantity: quantity,
+              size: this.entry.size
+          });
+      },
+
+      _removeItem: function() {
+          this.fire('clear-basket', {})
+      }
+
+
+    });
+  </script>
+</dom-module>
