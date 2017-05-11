@@ -15,7 +15,7 @@ Shop list item
 <link rel="import" href="my-icons.html">
 
 
-<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Space+Mono|Playfair+Display|Comfortaa" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Rhodium+Libre|Space+Mono|Cabin|Playfair+Display|Comfortaa" rel="stylesheet">
 
 <dom-module id="list-item">
   <template>
@@ -23,13 +23,20 @@ Shop list item
       :host {
         display: block;
         max-width: 300px;
+        margin-top: 13px;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 3px;
         color: #212121;
-        border-radius: 2px;
+        border-radius: 8px 8px 1px 1px;
         background-color: #ECEFF1;
         @apply(--shadow-elevation-2dp);
+      }
+
+      .choose {
+        @apply(--shadow-elevation-4dp);
+      }
+
+      .file {
       }
 
       .main {
@@ -39,7 +46,7 @@ Shop list item
 
       paper-button.details {
         @apply(--layout-vertical);
-        @apply(--layout-start);   
+        @apply(--layout-center);   
         padding-left: 5px;     
         text-transform: none;
       }
@@ -51,7 +58,7 @@ Shop list item
 
       .title {
         font-size: 16px;
-        font-family: 'Comfortaa', cursive;       
+        font-family: 'Comfortaa', cursive;
         line-height: 140%;
       }
 
@@ -59,9 +66,20 @@ Shop list item
         /*text-decoration: underline;*/
       }
 
+      .desc {
+        font-family: 'Comfortaa', cursive;     
+        font-size: 15px;  
+        color: #ECEFF1;
+        padding: 20px;
+        text-align: center;
+        line-height: 140%;
+        margin: auto;
+      }
+
       .price {
-        font-family: 'Raleway', sans-serif;
-        font-size: 18px;        
+        font-size: 16px; 
+        font-weight: 600;    
+        letter-spacing: 1px;   
       }
 
       iron-icon.arrow {
@@ -83,39 +101,44 @@ Shop list item
       .collapse {
         padding: 13px;
         text-align: center;
+        display: block;
       }
       
       iron-collapse {
-        background-color: #37474F;
+        background-color:#37474F;
+        display: block;
       }
 
       .size {
         margin: 8px 0px;
-        width: 100%;
-        text-align: center;
+        /*width: 100%;*/
+        text-align: left;
       }
 
       .indicator {
         text-align: left;
         text-transform: uppercase;
-        font-size: 13px;
+        font-size: 14px;
         letter-spacing: 1px;
         margin-top: 5px;
-        padding: 5px;
-        border-radius: 2px;
-        color: #ECEFF1;
-        background-color: rgba(38,50,56 , 0.9);
-        font-family: 'Raleway', sans-serif;  
+        padding: 3px 5px;
+        border-radius: 0px 2px 2px 0px;
+        color: #263238;
+        color: #212121;
+        background-color:#CFD8DC;
+        font-family: 'Cabin', sans-serif;  
         width: fit-content;      
       }
 
       paper-radio-group.select-size {
         --paper-radio-group-item-padding: 5px;
-        padding: 13px 0px;
+        padding: 13px 13px;
+        @apply(--layout-vertical);
+        @apply(--layout-start);
       }
 
       paper-radio-button {
-        font-family: 'Comfortaa', cursive;       
+        font-family: 'Raleway', sans-serif;
         --paper-radio-button-size: 14px;
         --paper-radio-button-label-spacing: 5px;
         --paper-radio-button-checked-color: #FF8A65;
@@ -123,15 +146,16 @@ Shop list item
         --paper-radio-button-unchecked-ink-color: #FF8A65;
         --paper-radio-button-checked-ink-color: #FF8A65;
         --paper-radio-button-label: {
-          font-size: 14px;
+          font-size: 13px;
           color: #ECEFF1;
+          letter-spacing: 1px;
         }
       }
 
       .quantity {
         margin: 8px 0px; 
         text-align: left;   
-        width: 100%;    
+        /*width: 100%;    */
       }
 
       paper-slider.select-quantity {
@@ -141,24 +165,39 @@ Shop list item
         --paper-slider-active-color: #FF8A65;
         --paper-slider-container-color: #212121;
         --paper-slider-pin-color: #FF8A65;
-        --paper-slider-font-color: rgba(55,71,79 ,1);
+        --paper-slider-font-color: #263238;
         margin-left: auto;
         margin-right: auto;
         margin-top: 8px;
-        
+      }
+
+      .slider {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+      }
+
+      .amount {
+        color: #CFD8DC;
+        font-family: 'Raleway', sans-serif;  
+        font-size: 18px;
       }
 
       paper-button.basket {
         text-transform: uppercase;
-        background-color: #263238;
-        font-family: 'Raleway', sans-serif;        
-        color: #ECEFF1;
-        font-size: 13px;
-        line-height: 80%;
+        background-color: transparent;
+        font-family: 'Cabin', sans-serif;  
+        font-weight: lighter;
+        letter-spacing: 1px;
+        color: #CFD8DC;
+        font-size: 14px;
+        margin-top: 26px;
+        text-align: center;
       }
 
       paper-button.basket:focus {
         text-decoration: none;
+        font-weight: normal;
       }
 
       iron-icon.basket {
@@ -182,9 +221,9 @@ Shop list item
         text-align: center;
         letter-spacing: 1px;
         font-size: 16px;
-        color: #607D8B;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+        color: #263238;
+        margin-top: 1em;
+        margin-bottom: 1em;
         font-family: 'Space Mono', monospace;
       }
     </style>
@@ -194,10 +233,10 @@ Shop list item
       <!-- Drop control button -->
       <paper-button class="details" on-click="toggle" noink>
         <span class="title">
-          <u>[[title]]</u>
+          [[title]]
         </span>
         <span class="price">
-          £[[price]]
+          [[_formatPrice(price)]]
         </span>
         <iron-icon class="arrow" icon="{{arrow}}"></iron-icon>
       </paper-button>
@@ -210,29 +249,32 @@ Shop list item
     </div>
 
     <!-- Drop div -->
-    <iron-collapse id="collapse">
-      <div class="collapse">
+    <iron-collapse id="collapse" opened="{{choose}}">
+        <div class="desc">
+          [[desc]]
+        </div>
+
+        <div class="sep-title">
+        </div>
+
         <div class="size">
-         <div class="indicator">Size:</div>          
+         <span class="indicator">Size</span>          
          <paper-radio-group class="select-size" selected="{{size}}">
-            <paper-radio-button noink name="small">Small</paper-radio-button>
-            <paper-radio-button noink name="medium">Medium</paper-radio-button>
-            <paper-radio-button noink name="large">Large</paper-radio-button>
+            <paper-radio-button noink name="Small">SMALL</paper-radio-button>
+            <paper-radio-button noink name="Medium">MEDIUM</paper-radio-button>
+            <paper-radio-button noink name="Large">LARGE</paper-radio-button>
           </paper-radio-group>
         </div>
 
         <div class="quantity">
-          <div class="indicator">Quantity: [[quantity]]</div>
-          <paper-slider class="select-quantity" immediate-value="{{quantity}}" min="1" max="100"></paper-slider>
-        </div>
-
-        <div class="sep-title">
-          &period;
-        </div>
+          <span class="indicator">Quantity</div>
+          <div class="slider">
+            <span class="amount">[[quantity]]</span>
+            <paper-slider class="select-quantity" immediate-value="{{quantity}}" min="1" max="100"></paper-slider>
+          </div>
 
         <paper-button on-click="_addToCart" class="basket">
-          <iron-icon class="basket" icon="my-icons:shopping-basket"></iron-icon>
-          Add to basket
+          <iron-icon class="basket" icon="my-icons:add"></iron-icon>Add to basket
         </paper-button>
       </div>
     </iron-collapse>
@@ -249,10 +291,15 @@ Shop list item
 
         item: {
           type: Object,
-          computed: '_computeItem(title)',
+          computed: '_computeItem(title, thumb, price)',
           notify: true
         },
         
+        choose: {
+          type: Boolean,
+          observer: '_chosen'
+        },
+
         visible: Boolean,
 
         title: String,
@@ -286,9 +333,16 @@ Shop list item
 
       },
 
-      _computeItem: function(title) {
+      _chosen: function(newValue, oldValue) {
+        this.toggleClass('file', true);
+        console.log(newValue);
+      },
+
+      _computeItem: function(title, thumb, price) {
         return {
-          name: title
+          name: title,
+          thumb: thumb,
+          price: price
         };
       },
 
@@ -311,14 +365,14 @@ Shop list item
       },
 
       _clear: function() {
-        this.fire('clear-bsaket', {
+        this.fire('clear-basket', {
           item: this.item,
           quantity: parseInt(this.$.quantitySelect.value, 10),
           size: this.$.sizeSelect.value
         });
       },
 
-      formatPrice: function(price) {
+      _formatPrice: function(price) {
         return price ? '£' + price.toFixed(2) : '';
       }
 

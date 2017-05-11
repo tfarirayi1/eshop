@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="shopping-basket-data.html">
 <link rel="import" href="shop-list.html">
@@ -41,9 +43,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-fab {
-        --paper-fab-background: #CFD8DC;
+        --paper-fab-background: #ECEFF1;
         color: #263238;
         /*margin: auto;*/
+        --paper-fab-keyboard-focus-background: #CFD8DC;
       }
 
       .basket-button {
@@ -53,34 +56,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-badge.numitems {
+        --paper-badge-background: #FF8A65;
+        --paper-badge-text-color: #263238;
+        --paper-badge-width: 22px;
+        --paper-badge-height: 22px;
+        font-family: 'Cabin', sans-serif;  
       }
 
       paper-scroll-header-panel {
-            background-color: #263238;
-            @apply(--layout-flex);
+          background-color: #263238;
+          @apply(--layout-flex);
             /* background for toolbar full size */
-            --paper-scroll-header-panel-full-header: {
-                /*background-color: #B0BEC5;*/
-                background-color: #263238;
-                background-color: transparent;
+          --paper-scroll-header-panel-full-header: {
+              /*background-color: #B0BEC5;*/
+               background-color: transparent;
+                 /*background-color: #263238;*/
                 border-radius: 0px 0px 16px 16px;
-            };
+               
+          };
             /* background for toolbar condensed */
-            --paper-scroll-header-panel-condensed-header: {
-                background-color: #263238;
-                background-color: transparent;
-                color: red !important;
-            };
-        }
+          --paper-scroll-header-panel-condensed-header: {
+              /*background-color: transparent;*/
+                              background-color: #263238;
 
-        paper-toolbar {
-          background-color: transparent;
-          color: #455A64;
-        }
+          };
+      }
+
+      paper-toolbar {
+        /*@apply(--layout-center);*/
+        /*@apply(--shadow-elevation-2dp);*/
+        background-color: transparent;
+        color: #455A64;
+        height: 124px;
+        border-radius: 0px 0px 8px 8px;
+      }
 
       .main-title {
-        max-width: 400px;
+        /*max-width: 400px;
         margin: auto;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);*/
       }
 
       .spacer {
@@ -102,38 +117,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </shopping-basket-data>
 
         <!-- Header Content -->
-        <paper-scroll-header-panel id="header" fixed>
+        <paper-scroll-header-panel id="header" no-reveal scroll-away-topbar keep-condensed-header condensed-header-height="66">
 
           <!-- Toolbar -->
-          <paper-toolbar bottom-justify="center" justify="end">
-              <paper-icon-button id="contact" on-click="toggleContact" icon="my-icons:phone-iphone"></paper-icon-button>
+          <paper-toolbar bottom-justify="center" justify="center">
+              <paper-icon-button id="contact" on-click="toggleContact" icon="my-icons:phone"></paper-icon-button>
               <paper-icon-button id="message" on-click="toggleMessage" icon="my-icons:mail"></paper-icon-button>
               <paper-icon-button id="about" on-click="toggleAbout" icon="my-icons:info-outline"></paper-icon-button>
 
               <div class="bottom main-title">
-                  <paper-fab id="basket-icon" mini icon="my-icons:shopping-basket"></paper-fab>
-                  <paper-badge class="numitems" for="basket-icon" hidden$="[[!numItems]]" label="[[numItems]]"></paper-badge>
+                  <a href="/basket">
+                    <paper-fab id="basket-icon" mini icon="my-icons:shopping-basket"></paper-fab>
+                  </a>
+                  <paper-badge class="numitems" for="basket-icon" label="[[numItems]]"></paper-badge>
               </div>
           </paper-toolbar>
-                  
 
-          <!--<div class="cart-btn-container">
-              <paper-fab id="basket-icon" mini icon="my-icons:shopping-basket"></paper-fab>-->
-              <!--<paper-badge class="numitems" for="basket-icon" hidden$="[[!numItems]]" label="[[numItems]]"></paper-badge>-->
-            <!--</div>-->
+            <iron-pages
+              selected="[[page]]"
+              attr-for-selected="name"
+              fallback-selection="list"
+              role="main">
 
-                  <iron-pages
-                    selected="[[page]]"
-                    attr-for-selected="name"
-                    fallback-selection="list"
-                    role="main">
-
-                    <shop-list name="list"></shop-list>
-                    <shop-basket name="basket" basket="[[basket]]" total="[[total]]"></shop-basket>
-                  
-                  </iron-pages>
-                  <span class="spacer"></span>
-                  <div>Hey</div>
+              <shop-list name="list"></shop-list>
+              <shop-basket name="basket" basket="[[basket]]" total="[[total]]"></shop-basket>
+            </iron-pages>
+            <div>
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
         </paper-scroll-header-panel>
      
   </template>
@@ -162,7 +173,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners: {
         'add-basket-item': '_onAddBasketItem',
         'set-basket-item': '_onSetBasketItem',
-        'clear-basket': '_onClearBasket'
+        'clear-basket': '_onClearBasket',
+        'change-section': '_onChangeSection'
       },
 
       _onAddBasketItem: function(event) {

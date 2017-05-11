@@ -10,15 +10,32 @@ Shop basket
   <template>
     <style>
       :host {
+        background-color: transparent;
+        border-radius: 0px 0px 2px 2px;
         display: block;
+        margin: auto;
+        max-width: 280px;
+        padding: 13px;
+      }
+
+      .empty-basket {
+        color: #263238;  
+        font-family: 'Cabin', sans-serif;
+        text-align: center;
+        background-color: #ECEFF1;
+        padding: 13px;
+        border: 1px solid #CFD8DC;
+        border-radius: 2px;
       }
     </style>
     <!-- Dom here -->
-      <span>([[_getPluralizedQuantity(basket.length)]])</span>
-      <template is="dom-repeat" items="[[basket]]" as="entry">
-          <shop-basket-item entry="[[entry]]"></shop-basket-item>
-      </template>
-      
+    <div class="empty-basket" hidden$="[[_hasItems]]">
+      Your basket is empty.
+    </div>
+
+    <template is="dom-repeat" items="[[basket]]" as="entry">
+      <shop-basket-item entry="[[entry]]"></shop-basket-item>
+    </template>
 
   </template>
 
@@ -33,7 +50,7 @@ Shop basket
 
         _hasItems: {
           type: Boolean,
-          compute: '_computeHasItem(basket.length)'
+          computed: '_computeHasItem(basket.length)'
         }
       },
 

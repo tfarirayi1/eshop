@@ -5,6 +5,9 @@ Blank element
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/cascaded-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
 <link rel="import" href="list-item.html">
 
 <dom-module id="shop-list">
@@ -18,9 +21,9 @@ Blank element
 
     <iron-ajax auto url="data/candy.json" handle-as="json" last-response="{{candy}}"></iron-ajax>
     <template is="dom-repeat" items="[[candy]]">
-      <list-item 
+      <list-item id="item"
           title="[[item.title]]"
-          desc="[[item.desc]]"
+          desc="[[item.description]]"
           price="[[item.price]]"
           thumb="[[item.thumb]]">
       </list-item>
@@ -31,6 +34,28 @@ Blank element
   <script>
     Polymer({
       is: 'shop-list',
+
+      behaviors: [
+        Polymer.NeonAnimationRunnerBehavior
+      ], 
+
+      properties: {
+        animationConfig: {
+          value: function() {
+            return {
+              'entry': {
+                name: 'fade-in-animation',
+                node: this
+              }
+            }
+          }
+        }
+      },
+
+      attached: function() {
+        // console.log(Polymer.dom(this.root).querySelectorAll('#list'));
+        this.playAnimation('entry');
+      }
 
     });
   </script>

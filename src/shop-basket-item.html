@@ -5,23 +5,95 @@ Shop basket item
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="shop-basket-item">
   <template>
     <style>
       :host {
+        color: #263238;
+        border: 1px solid #CFD8DC;
+        background-color: #ECEFF1;
+        border-radius: 2px;
         display: block;
+        margin: auto;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        max-width: 280px;
+        padding: 8px;
+        @apply(--layout-horizontal);
+      }
+
+      .image {
+        margin: auto;
+        max-width: 50px;
+        min-width: 50px;
+        padding: 5px;
+      }
+
+      img.thumb {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .title {
+        font-size: 16px;
+        font-family: 'Comfortaa', cursive;
+        line-height: 140%;
+      }
+
+      paper-slider.select-quantity {
+        --paper-slider-knob-start-color: #FF8A65;
+        --paper-slider-knob-start-border-color: #FF8A65;
+        --paper-slider-knob-color: #FF8A65;
+        --paper-slider-active-color: #FF8A65;
+        --paper-slider-container-color: #212121;
+        --paper-slider-pin-color: #FF8A65;
+        --paper-slider-font-color: #263238;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 8px;
+      }
+
+      .cost {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px; 
+        font-weight: 600;    
+        letter-spacing: 1px;   
+      }
+
+      .spacer {
+        @apply(--layout-flex);
+      }
+
+      .sep-title {
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 1px;
+        font-size: 16px;
+        color: #263238;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-family: 'Space Mono', monospace;
       }
     </style>
     <!-- Dom here -->
-    <div class="quantity">
-          <div class="indicator">Quantity: [[entry.quantity]]</div>
-          <paper-slider id="quantity" class="select-quantity" on-change="_quantityChange" value="[[entry.quantity]]" immediate-value="[[entry.quantity]]" min="1" max="100"></paper-slider>
-    </div>
-    <div>[[entry.item.title]]</div>
-    <div class="price">[[_formatPrice(entry.item.price)]]</div>
-    <div class="size">Size: <span>[[entry.size]]</span></div>
 
+      <div class="details">
+        <div class="title">
+          [[entry.item.name]], [[entry.size]]
+        </div>
+        <div class="cost">
+          [[_formatPrice(entry.item.price)]] x [[entry.quantity]]
+        </div>
+        <div class="quantity">
+          <paper-slider id="quantity" class="select-quantity" on-change="_quantityChange" value="[[entry.quantity]]" immediate-value="{{entry.quantity}}" min="0" max="500"></paper-slider>
+        </div>
+      </div>
+      <span class="spacer"></span>
+      <div class="image">
+        <img class="thumb" src="[[entry.item.thumb]]">
+      </div>
 
   </template>
 
