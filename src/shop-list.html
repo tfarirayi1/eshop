@@ -1,13 +1,17 @@
 <!--
+Shop list element (Product list)
 @tfarirayi1
-Blank element
 -->
 
+<!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Iron elements -->
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<!-- Neon animation elements -->
 <link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="../bower_components/neon-animation/animations/cascaded-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<!-- Custom elements -->
 <link rel="import" href="list-item.html">
 
 <dom-module id="shop-list">
@@ -15,10 +19,11 @@ Blank element
     <style>
       :host {
         display: block;
+        padding: 13px;
       }
     </style>
-    <!-- Dom here -->
 
+    <!-- Dom here -->
     <iron-ajax auto url="data/candy.json" handle-as="json" last-response="{{candy}}"></iron-ajax>
     <template is="dom-repeat" items="[[candy]]">
       <list-item id="item"
@@ -53,7 +58,6 @@ Blank element
       },
 
       attached: function() {
-        // console.log(Polymer.dom(this.root).querySelectorAll('#list'));
         this.playAnimation('entry');
       }
 

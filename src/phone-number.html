@@ -1,0 +1,90 @@
+<!--
+Phone number element
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="phone-number">
+  <template>
+    <style>
+        :host {
+            display: block;
+            background-color: #ECEFF1;
+            border: 1px solid #CFD8DC;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Arvo', monospace;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: -13px;
+            max-width: 300px;
+            padding: 13px;
+            @apply(--shadow-elevation-2dp);
+        }
+          
+        span.desc {
+            display: block;
+        }
+        
+        .desc {
+            color: #455A64;
+            font-size: 13px;
+            padding-left: 4px;
+            text-align: left;
+        }
+
+        a {
+            color: #37474F;
+            font-family: 'Oswald', sans-serif;                        
+            font-size: 20px;            
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #455A64;
+        }
+
+        /* Utils */
+
+        u.title {
+            text-decoration: none;
+            border-bottom: 1px dotted #FF8A65;
+            line-height: 180%;
+        }
+
+        .sep-title {
+          text-transform: uppercase;
+          text-align: center;
+          letter-spacing: 1px;
+          font-size: 13px;
+          color: #37474F;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        }
+
+    </style>
+    <!-- Dom here -->
+
+    <div class="sep-title">
+        <p>PHONE US</p>.
+    </div>
+  
+    <div class="sec">
+      <a href="tel:+447449940700">074 499 407 00</a>
+        <span class="desc">
+            Calls taken all day on weekends and between 1800HRS - 0000HRS on weekdays. <br> SMS anytime</em>.
+        </span>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'phone-number',
+
+    });
+  </script>
+</dom-module>

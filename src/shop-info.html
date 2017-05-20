@@ -1,0 +1,31 @@
+<!--
+Information element
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Custom elements -->
+<link rel="import" href="about-us.html">
+
+<dom-module id="shop-info">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 13px;
+      }
+    </style>
+    <!-- Dom here -->
+    
+    <about-us></about-us>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-info',
+
+    });
+  </script>
+</dom-module>

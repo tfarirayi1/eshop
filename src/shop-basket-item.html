@@ -3,25 +3,32 @@
 Shop basket item
 -->
 
+<!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Paper elements -->
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<!-- Iron elements -->
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="shop-basket-item">
   <template>
     <style>
       :host {
-        color: #263238;
-        border: 1px solid #CFD8DC;
-        background-color: #ECEFF1;
-        border-radius: 2px;
         display: block;
-        margin: auto;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        max-width: 280px;
-        padding: 8px;
+        background-color: #ECEFF1;
+        border: 1px solid #CFD8DC;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-family: 'Arvo', monospace;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: -13px;
+        padding: 13px;
+        @apply(--shadow-elevation-2dp);
         @apply(--layout-horizontal);
+        @apply(--layout-start);
       }
 
       .image {
@@ -37,9 +44,10 @@ Shop basket item
       }
 
       .title {
-        font-size: 16px;
+        font-size: 15px;
         font-family: 'Comfortaa', cursive;
         line-height: 140%;
+        text-transform: capitalize;
       }
 
       paper-slider.select-quantity {
@@ -56,10 +64,11 @@ Shop basket item
       }
 
       .cost {
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px; 
+        font-size: 17px; 
         font-weight: 600;    
         letter-spacing: 1px;   
+        font-family: 'Fira Sans Extra Condensed', sans-serif;
+        font-family: 'Roboto Condensed', sans-serif;
       }
 
       .spacer {
@@ -76,21 +85,44 @@ Shop basket item
         margin-bottom: 1em;
         font-family: 'Space Mono', monospace;
       }
+
+      paper-input {
+        width: 50%;
+        
+      }
+      .size {
+        font-size: 13px;
+        text-transform: uppercase;
+      }
     </style>
     <!-- Dom here -->
 
       <div class="details">
+
         <div class="title">
-          [[entry.item.name]], [[entry.size]]
+          [[entry.item.name]]<br> 
         </div>
-        <div class="cost">
-          [[_formatPrice(entry.item.price)]] x [[entry.quantity]]
+
+        <div>
+         <span class="cost">[[_formatPrice(entry.item.price)]]</span> &dash;  <span class="size">[[entry.size]]</span> 
         </div>
+
         <div class="quantity">
-          <paper-slider id="quantity" class="select-quantity" on-change="_quantityChange" value="[[entry.quantity]]" immediate-value="{{entry.quantity}}" min="0" max="500"></paper-slider>
+          <paper-input 
+            always-float-label
+            prevent-invalid-input="true"
+            id="quantity" 
+            label="Qty:" 
+            type="number" 
+            on-change="_quantityChange" 
+            value=[[entry.quantity]] 
+            min-length="0">
+          </paper-input>
         </div>
       </div>
+
       <span class="spacer"></span>
+
       <div class="image">
         <img class="thumb" src="[[entry.item.thumb]]">
       </div>
@@ -110,7 +142,14 @@ Shop basket item
       },
 
       _quantityChange: function() {
-          this._setBasketItem(parseInt(this.$.quantity.immediateValue, 10));
+        // if blank input 
+        if (!this.$.quantity.value) {
+          this._setBasketItem(parseInt(0, 10));
+
+        } else { // input not blank
+          this._setBasketItem(parseInt(this.$.quantity.value, 10));
+          
+        }
       },
 
       _setBasketItem: function(quantity) {
@@ -124,7 +163,6 @@ Shop basket item
       _removeItem: function() {
           this.fire('clear-basket', {})
       }
-
 
     });
   </script>

@@ -1,0 +1,246 @@
+<!--
+Message form element with lambda function
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Paper elements -->
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
+<!-- Iron elements -->
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<!-- AWS -->
+<link rel="import" href="aws-sdk.html">
+
+<dom-module id="message-form">
+    <template>
+        <style>
+            :host {
+                display: block;
+                background-color: #ECEFF1;
+                border: 1px solid #CFD8DC;
+                border-radius: 8px;
+                box-sizing: border-box;
+                padding: 13px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: -13px;
+                max-width: 300px;
+                @apply(--shadow-elevation-2dp);
+            }
+
+            paper-input-container {
+                text-align: left;
+                font-size: 15px;
+                --paper-input-container-invalid-color: #BF360C;
+                --paper-input-container-color: #455A64;
+                --paper-input-container-focus-color: #37474F;
+                --paper-input-container-label-focus: {
+                    color: #37474F;
+                }
+                --paper-input-container-underline: {
+                    background-color: transparent;
+                }
+                --paper-input-container-label: {
+                    font-size: 18px;
+                    letter-spacing: 1px;
+                    color: #455A64;
+                    font-family: 'Roboto', monospace;
+                }
+            }
+
+            paper-button.send {
+                background-color: #263238;
+                border: 1px solid #455A64;
+                border-radius: 8px;
+                color: #FF8A65;
+                font-size: 14px;
+                margin: 10px 5px;
+                max-height: 36px;
+                text-align: center;
+            }
+
+            paper-button.send:focus {
+                font-weight: normal;
+                border: 1px solid #37474F;
+            }
+
+            .sep-title {
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 1px;
+                font-size: 13px;
+                color: #37474F;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                font-family: 'Arvo', monospace;
+            }
+            
+            .submit {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                margin-top: 13px;
+            }
+
+            .alert {
+                color: #BF360C;
+                font-family: 'Roboto', monospace;
+                font-size: 13px;
+                padding: 0px 8px;
+                @apply(--layout-flex);
+            }
+
+            .email {
+                text-align: right;
+            }
+            
+            a.address {
+                text-decoration: none;
+                color: #37474F;
+                font-family: 'Oswald', sans-serif;
+                font-size: 18px;
+            }
+
+            a.address:hover {
+                color: #455A64;
+            }
+
+            u.title {
+                text-decoration: none;
+                border-bottom: 1px dotted #FF8A65;
+                line-height: 180%;
+            }
+        </style>
+        <!-- Dom here -->
+
+        <div class="sep-title">
+            <p>EMAIL US</p>.
+        </div>
+        
+        <!-- Email field -->
+        <paper-input-container  always-float-label>
+            <label>Email</label>
+            <input is="iron-input" type="email" prevent-invalid-input on-input="revalidate" spellcheck="false" label="Email" bind-value="{{email}}">
+        </paper-input-container>
+
+        <!-- Message field -->
+        <paper-input-container always-float-label>
+            <label>Message</label>
+            <iron-autogrow-textarea id="text" rows="2" minlength="10" value="{{message}}" spellcheck="false" class="paper-input-input"></iron-autogrow-textarea>
+        </paper-input-container>
+
+        <!-- Submit button -->
+        <div class="submit">
+            <span class="alert">[[response]]</span>
+            <paper-button class="send" on-click="send">Send</paper-button>
+        </div>
+
+        <div class="email">
+            <p>
+                <a class="address" href="mailto:tich.farirayi@kioskwebdev.co.uk"><u class="title">tich.farirayi@kioskwebdev.co.uk</u></a>
+            </p>
+        </div>
+        
+</template>
+
+<script>
+    Polymer({
+        is: 'message-form',
+
+        behaviors: [
+            Polymer.IronValidatableBehavior
+        ],
+
+        properties: {
+            invalid: {
+                notify: true,
+                type: Boolean,
+                value: false
+            },
+
+            message: {
+                type: String,
+                notify: true,
+            },
+
+            email: {
+                type: String,
+                notify: true,
+            },
+
+            response: String,
+
+            sent: Boolean
+        },
+
+        revalidate: function(e) {
+            this.invalid =  !e.target.validate();
+        },
+
+        ready: function() {
+            // AWS Identity Check
+            AWS.config.region = 'eu-west-1'; // Region
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId: 'eu-west-1:29a3ccbb-f1e8-4801-87cb-171af721855a'
+            });
+
+            // Development only
+            // AWS.config.credentials.get(function(err) {
+            //     if (err) console.log(err);
+            //     else console.log(AWS.config.credentials);
+            // });
+        },
+
+        send: function() {
+            // Lambda service object
+            var lambda = new AWS.Lambda({
+                region: 'eu-west-1',
+                apiVersion: '2015-03-31'
+            });
+
+            // Lambda invoke params
+            var lambdaParams = {
+                FunctionName : 'message',
+                InvocationType : 'RequestResponse',
+                LogType: 'Tail',
+                Payload: JSON.stringify({
+                    "message": this.message,
+                    "email": this.email
+
+                }),
+            };
+
+            // Lambda invoke!
+            var main = this;
+            var result = function(data, err) {
+                if (data == '200') {
+                    main.response = "Message sent.";
+                    main.message = "";
+
+                } else {
+                    main.response = "Message failed.";
+                }
+            };
+
+            if (this.message && !this.invalid && this.email) {
+                this.response = 'Sending...';
+                lambda.invoke(lambdaParams, function(err, data) {
+                    if (err) result(err);
+                    else result(data.StatusCode);
+                });
+
+            } else {
+                if (!this.message) this.response = 'Empty message.';
+                if (!this.email) this.response = 'Empty email.';
+                if (this.invalid) this.response = 'Check your email.';
+            }
+        },
+
+    });
+</script>
+</dom-module>

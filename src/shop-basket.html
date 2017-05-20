@@ -1,20 +1,18 @@
 <!--
+Shop basket element
 @tfarirayi1
-Shop basket
 -->
 
+<!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Custom elements -->
 <link rel="import" href="shop-basket-item.html">
 
 <dom-module id="shop-basket">
   <template>
     <style>
       :host {
-        background-color: transparent;
-        border-radius: 0px 0px 2px 2px;
         display: block;
-        margin: auto;
-        max-width: 280px;
         padding: 13px;
       }
 
@@ -29,6 +27,7 @@ Shop basket
       }
     </style>
     <!-- Dom here -->
+    
     <div class="empty-basket" hidden$="[[_hasItems]]">
       Your basket is empty.
     </div>

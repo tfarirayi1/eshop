@@ -1,0 +1,31 @@
+<!--
+Checkout page
+@tfarirayi1
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="checkout-form.html">
+
+<dom-module id="shop-checkout">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 13px;
+      }
+    </style>
+    <!-- Dom here -->
+
+    <checkout-form>
+      <content></content>
+    </checkout-form>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-checkout',
+
+    });
+  </script>
+</dom-module>

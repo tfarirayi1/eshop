@@ -1,0 +1,31 @@
+<!--
+@tfarirayi1
+Shop phone page
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Custom elements -->
+<link rel="import" href="phone-number.html">
+
+<dom-module id="shop-phone">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 13px;
+      }
+    </style>
+    <!-- Dom here -->
+
+    <phone-number></phone-number>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-phone',
+
+    });
+  </script>
+</dom-module>

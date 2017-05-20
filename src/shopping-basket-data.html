@@ -1,14 +1,16 @@
 <!--
-@tfarirayi1
 Shopping Basket Logic
+@tfarirayi1
 -->
 
+<!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Local storage dependency -->
 <link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <dom-module id="shopping-basket-data">
   <template>
-    <app-localstorage-document key="shop-cart-data" data="{{basket}}"></app-localstorage-document>
+    <app-localstorage-document key="shop-basket-data" data="{{basket}}"></app-localstorage-document>
   </template>
 
   <script>

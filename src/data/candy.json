@@ -1,39 +1,39 @@
 [
     {
         "name":"one",
-        "title":"Swirl Pop Stick",
-        "price":1.20,
-        "description":"Sour apple flavoured hard candy",
+        "title":"Strawberry Swirl Pop",
+        "price":0.87,
+        "description":"Chewy strawberry flavoured candy.",
         "thumb":"/src/images/candy1.png"
     },
     {
-        "title":"Stripey Sunbrella",
-        "price":1.15,
-        "description":"Strawberry flavoured hard candy",
+        "title":"Sweet & Tangy Candy Cane",
+        "price":0.87,
+        "description":"Raspberry flavoured hard candy.",
         "thumb":"/src/images/candy2.png"
     },
     {
-        "title":"Cheeky Filler",
-        "price":1.10,
-        "description":"Sherbert core apple lollipop",
+        "title":"apple ball pop",
+        "price":0.76,
+        "description":"Sherbert core apple flavoured lollipop.",
         "thumb":"/src/images/candy3.png"
     },
     {
-        "title":"Pull Pop Cara",
-        "price":0.90,
-        "description":"Caramel sherbert core lollipop",
+        "title":"Caramel Chewy core",
+        "price":0.24,
+        "description":"Hard boiled caramel flavoured sweet.",
         "thumb":"/src/images/candy4.png"
     },
     {
-        "title":"Pull Pop Grape",
-        "price":0.90,
-        "description":"Grape sherbert core lollipop",
+        "title":"sour grape core",
+        "price":0.24,
+        "description":"Grape flavoured sherbert core boiled sweet.",
         "thumb":"/src/images/candy6.png"
     },
     {
-        "title":"Ro-Blade Disc",
-        "price":1.20,
-        "description":"Watermelon chewy candy",
+        "title":"chewy melon swirl",
+        "price":0.80,
+        "description":"Watermelon flavoured chewy candy.",
         "thumb":"/src/images/candy5.png"
     }
 ]
