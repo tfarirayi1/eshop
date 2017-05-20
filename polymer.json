@@ -1,19 +1,33 @@
 {
   "entrypoint": "index.html",
+
   "shell": "src/my-app.html",
+
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/shop-phone.html",
+    "src/shop-basket.html",
+    "src/shop-list.html",
+    "src/shop-contact.html"
   ],
-  "sourceGlobs": [
+
+  "sources": [
     "src/**/*",
     "images/**/*",
     "bower.json"
   ],
-  "includeDependencies": [
+  
+  "extraDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
-  ]
+  ],
+
+  "builds": [{
+    "name": "dist",
+    "swPrecacheConfig": "sw-precache-config.js",
+    "addServiceWorker": true,
+    "insertPrefetchLinks": true,
+    "html": {
+      "minify": true
+    }
+  }]
 }
