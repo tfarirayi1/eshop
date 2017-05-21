@@ -10,6 +10,6 @@
     "lint": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "npm run lint && polymer test",
     "dev": "polymer serve & npm run watch",
-    "watch": "browser-sync start --proxy localhost:8080 --files 'src/*.html, src/*.js, images/*'"
+    "watch": "browser-sync start --proxy localhost:3000 --files 'src/*.html, src/*.js, images/*'"
   }
 }

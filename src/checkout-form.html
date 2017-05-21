@@ -7,8 +7,13 @@ Checkout form element stripe api
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Iron elements -->
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<!-- Paper elements -->
+<link rel="import" href="../bower_components/paper-input/paper-input-container.html">
 <!-- Custom elements -->
 <link rel="import" href="aws-sdk.html">
+<link rel="import" href="stripe-sdk.html">
 
 <dom-module id="checkout-form">
   <template>
@@ -24,11 +29,32 @@ Checkout form element stripe api
         margin-top: -13px;
         box-sizing: border-box;
         border: 1px solid #CFD8DC;
+        background-color: #455A64;
         @apply(--shadow-elevation-2dp);                                                                 
       }
     </style>
     <!-- Dom here -->
 
+    <div class="main">
+      <!-- Email field -->
+      <paper-input-container  always-float-label>
+          <label>Email Address:</label>
+          <input is="iron-input" type="email" prevent-invalid-input on-input="revalidate" spellcheck="false" label="Email" bind-value="{{email}}">
+      </paper-input-container>
+
+      <!-- Name field -->
+      <paper-input-container  always-float-label>
+          <label>First Name:</label>
+          <input is="iron-input" type="email" prevent-invalid-input on-input="revalidate" spellcheck="false" label="Email" bind-value="{{email}}">
+      </paper-input-container>
+
+      <!-- Name field -->
+      <paper-input-container  always-float-label>
+          <label>Last Name:</label>
+          <input is="iron-input" type="email" prevent-invalid-input on-input="revalidate" spellcheck="false" label="Email" bind-value="{{email}}">
+      </paper-input-container>
+    </div>
+    <label for="payment_form">Payment Details</label>
     <form action="[[submitUrl]]" method="post" id="payment_form">
       <content></content>
 
@@ -42,6 +68,9 @@ Checkout form element stripe api
       is: 'checkout-form',
       
       properties: {
+        totalCost: Number,
+
+        totalItems: Number,
 
         errorMessage: {
           type: String,
@@ -62,6 +91,8 @@ Checkout form element stripe api
       },
 
       ready: function() {
+
+        console.log(this.totalCost);
         // AWS Identity Check
         AWS.config.region = 'eu-west-1'; // Region
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({

@@ -7,6 +7,7 @@ Shop basket element
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Custom elements -->
 <link rel="import" href="shop-basket-item.html">
+<link rel="import" href="basket-summary.html">
 
 <dom-module id="shop-basket">
   <template>
@@ -27,11 +28,9 @@ Shop basket element
       }
     </style>
     <!-- Dom here -->
-    
-    <div class="empty-basket" hidden$="[[_hasItems]]">
-      Your basket is empty.
-    </div>
 
+    <basket-summary basket-data="[[basket]]" total-cost="[[total]]" total-items="[[numItems]]"></basket-summary>    
+    
     <template is="dom-repeat" items="[[basket]]" as="entry">
       <shop-basket-item entry="[[entry]]"></shop-basket-item>
     </template>
@@ -45,16 +44,14 @@ Shop basket element
       properties: {
         total: Number,
 
+        numItems: Number,
+
         basket: Array,
 
         _hasItems: {
           type: Boolean,
           computed: '_computeHasItem(basket.length)'
         }
-      },
-
-      attached: function() {
-        console.log(this.basket);
       },
 
       _computeHasItem: function(basketLength) {

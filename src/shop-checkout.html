@@ -16,7 +16,7 @@ Checkout page
     </style>
     <!-- Dom here -->
 
-    <checkout-form>
+    <checkout-form total-cost="[[total]]" total-items="[[numItems]]">
       <content></content>
     </checkout-form>
 
@@ -26,6 +26,12 @@ Checkout page
     Polymer({
       is: 'shop-checkout',
 
+      properties: {
+        total: Number,
+
+        numItems: Number
+      }
+      
     });
   </script>
 </dom-module>

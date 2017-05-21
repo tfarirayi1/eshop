@@ -1,0 +1,150 @@
+<!--
+Basket summayy element
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Paper elements -->
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<!-- Iron elements -->
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<!-- Custom elements -->
+<link rel="import" href="my-icons.html">
+
+<dom-module id="basket-summary">
+  <template>
+    <style>
+      :host {
+        display: block;
+        max-width: 300px;
+        margin-top: -13px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 21px;
+        box-sizing: border-box;
+        color: #212121;
+        border-radius: 8px;
+        border: 1px solid #CFD8DC;
+        background-color: #455A64;
+        padding: 8px;
+        padding-top: 13px;
+        @apply(--shadow-elevation-4dp);
+      }
+
+      .empty-basket {
+        color: #CFD8DC;  
+        font-family: 'Cabin', sans-serif;
+        text-align: center;
+        padding: 13px 0px;
+      }
+
+      .main {
+        font-family: 'Cabin', sans-serif;
+        font-family: 'Raleway', sans-serif;  
+        color: #CFD8DC;        
+      }
+
+      .controls {
+        margin: 13px 0px;
+        @apply(--layout-vertical);
+      }
+
+      iron-icon {
+        --iron-icon-height: 18px;
+        --iron-icon-width: 18px;
+      }
+
+      paper-button {
+        font-family: 'Cabin', sans-serif;  
+        font-size: 15px;
+        color: #263238;
+        background-color: #B0BEC5;
+        margin: 3px;
+        padding: 5px;
+        width: 100%;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .title {
+        text-align: center;
+        padding-bottom: 26px;
+      }
+
+      .row {
+        @apply(--layout-horizontal);
+      }
+
+      .spacer {
+        @apply(--layout-flex);
+      }
+    </style>
+    <!-- Dom here -->
+
+    <div class="empty-basket" hidden$="[[_hasItems]]">
+      Your basket is empty.
+    </div>
+
+    <div class="main" hidden$="[[!_hasItems]]">
+      <div class="title">
+        Basket Summary
+      </div>
+      <div class="row total">
+        <span>Total Items</span>
+        <span class="spacer"></span>
+        <span>[[totalItems]]</span>        
+      </div>
+      <div class="row total">
+        <span>Total Cost</span>
+        <span class="spacer"></span>
+        <span>[[_formatTotal(totalCost)]]</span>        
+      </div>
+      <div class="controls">
+        <paper-button on-click="_emptyCart"><iron-icon icon="my-icons:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
+          <a href="/checkout">
+        <paper-button><iron-icon icon="my-icons:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
+          </a>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'basket-summary',
+
+      properties: {
+        basketData: Array,
+
+        totalCost: Number,
+
+        totalItems: Number,
+
+        _hasItems: {
+          type: Boolean,
+          computed: '_computeHasItems(basketData.length)'
+        }
+      },
+
+      _emptyCart: function() {
+        this.fire('clear-basket', {});
+      },
+
+      _computeHasItems: function(basketLength) {
+        return basketLength > 0;
+      },
+
+      _formatTotal: function(total) {
+        return !total ? '' : '£' + total.toFixed(2);
+      },
+
+      _getPluralizedQuantity: function(quantity) {
+        return quantity + ' ' + (quantity === 1 ? 'item' : 'items');
+      }
+
+    });
+  </script>
+</dom-module>

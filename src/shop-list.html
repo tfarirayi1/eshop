@@ -58,9 +58,14 @@ Shop list element (Product list)
       },
 
       attached: function() {
-        this.playAnimation('entry');
-      }
+        
+      },
 
+      ready: function() {
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          // this.playAnimation('entry');
+        });
+      },
     });
   </script>
 </dom-module>

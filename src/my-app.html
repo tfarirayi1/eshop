@@ -145,7 +145,7 @@ Main application container element
 
               <shop-contact name="contact"></shop-contact>
 
-              <shop-checkout name="checkout">
+              <shop-checkout name="checkout" total="[[total]]" num-items="[[numItems]]">
                 <content></content>
               </shop-checkout>
               
@@ -155,7 +155,7 @@ Main application container element
               
               <shop-info name="info"></shop-info>
               
-              <shop-basket name="basket" basket="[[basket]]" total="[[total]]"></shop-basket>
+              <shop-basket name="basket" basket="[[basket]]" total="[[total]]" num-items="[[numItems]]"></shop-basket>
 
           </iron-pages>
 
@@ -198,6 +198,10 @@ Main application container element
         'change-section': '_onChangeSection'
       },
 
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
+
       _onAddBasketItem: function(event) {
         console.log(event);
         this.$.basket.addItem(event.detail);
@@ -216,11 +220,42 @@ Main application container element
         this.page = page || 'list';
       },
 
-      _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('shop-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      _pageChanged: function(page, oldPage) {
+
+        if (page != null) {
+          // home route is eagerly loaded
+          if (page == 'list') {
+            this._ensureLazyLoaded();
+            
+            // other routes are lazy loaded
+          } else {
+            // When a load failed, it triggered a 404 which means we need to
+            // eagerly load the 404 page definition
+            var resolvedPageUrl = this.resolveUrl('shop-' + page + '.html');
+            this.importHref(resolvedPageUrl, null, this._showPage404, true);
+            
+          }
+        }
+
       },
+
+      _ensureLazyLoaded: function() {
+        // load lazy resources after render and set `loadComplete` when done.
+        if (!this.loadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+              // Register service worker if supported.
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js');
+              }
+              // this._notifyNetworkStatus();
+              console.log(Polymer.RenderStatus);
+              this.loadComplete = true;
+            });
+          });
+        }
+      },
+
 
       _showPage404: function() {
         this.page = 'list';
