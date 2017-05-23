@@ -1,0 +1,85 @@
+<!--
+Welcome box element
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Paper elements -->
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="welcome-box">
+  <template>
+    <style>
+      :host {
+        display: block;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #ECEFF1;
+        background-color: rgba(207,216,220 ,0.9);
+        border-radius: 8px;
+        color: #212121;
+        padding: 13px;
+        margin-top: -13px; 
+        box-sizing: border-box;
+        border: 1px solid #FF8A65;
+        /*background-color: #455A64;*/
+        font-family: 'Cabin', sans-serif;  
+        font-family: 'Arvo', serif;
+        @apply(--shadow-elevation-2dp); 
+      }
+
+      .main {
+        text-align: center;
+        color: #CFD8DC;
+        color: #212121;
+      }
+
+      .enter {
+        padding: 13px 0px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+
+      paper-button.enter {
+        background-color: #263238;
+        border: 1px solid #455A64;
+        border-radius: 8px;
+        color: #FF8A65;
+        font-size: 14px;
+        max-height: 36px;
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+    <!-- Dom here -->
+    <div class="main">
+      Welcome to the demonstration website of our ESHOP implementation, which serves as the proof of concept. Use the fake card details provideed to make a demo purchase. Your order will be processed and you will be alerted through the email you supply.
+      Please note that you will not actually receive any goods when you order.
+    </div>
+    <div class="enter">
+      <a href="/list">
+        <paper-button on-click="_log" class="enter">Enter</paper-button>
+      </a>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'welcome-box',
+
+      _log: function() {
+
+       this.fire('scrollpos', {});
+
+      }
+
+    });
+  </script>
+</dom-module>

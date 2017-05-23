@@ -1,7 +1,7 @@
 {
-  "name": "Kiosk Web-Dev",
-  "short_name": "K W-D",
-  "description": "Smart websites for small organisations",
+  "name": "ESHOP Impl",
+  "short_name": "eshop",
+  "description": "ESHOP implementation",
   "start_url": "/",
   "display": "standalone"
 }

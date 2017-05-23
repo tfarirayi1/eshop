@@ -1,0 +1,44 @@
+<!--
+Landing page element
+@tfarirayi1
+-->
+
+<!-- Polymer dependency -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<!-- Custom elements -->
+<link rel="import" href="welcome-box.html">
+
+<dom-module id="shop-home">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 13px;
+      }
+    </style>
+    <!-- Dom here -->
+    <welcome-box></welcome-box>
+    
+  </template>
+
+  <script>
+    Polymer({
+      is: 'shop-home',
+
+      ready: function() {
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          // this.playAnimation('entry');
+          console.log('loaded');
+
+        });
+
+        // console.log(this.parentElement.parentElement.scroll(scrollPos, true));
+      },
+      
+      attached: function() {
+        console.log(this.parentElement);
+      }
+
+    });
+  </script>
+</dom-module>

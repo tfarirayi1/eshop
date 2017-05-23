@@ -90,7 +90,7 @@ Main application container element
       }
     </style>
 
-    <app-location route="{{route}}"></app-location>
+    <app-location id="location" route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -109,27 +109,27 @@ Main application container element
           <!-- Toolbar -->
           <paper-toolbar bottom-justify="center" justify="center">
                 <a href="/">
-              <paper-icon-button id="home" on-click="toggleContact" icon="my-icons:home"></paper-icon-button>
+              <paper-icon-button id="home" on-click="toggleContact" icon="icon:home"></paper-icon-button>
                 </a>
 
               <span class="spacer"></span>
 
                 <a href="/info">
-              <paper-icon-button id="info" on-click="toggleAbout" icon="my-icons:info-outline"></paper-icon-button>
+              <paper-icon-button id="info" on-click="toggleAbout" icon="icon:info-outline"></paper-icon-button>
                 </a>
 
                 <a href="/phone">
-              <paper-icon-button id="phone" on-click="toggleContact" icon="my-icons:phone-iphone"></paper-icon-button>
+              <paper-icon-button id="phone" on-click="toggleContact" icon="icon:phone-iphone"></paper-icon-button>
                 </a>
 
                 <a href="/contact">
-              <paper-icon-button id="contact" on-click="toggleMessage" icon="my-icons:mail"></paper-icon-button>
+              <paper-icon-button id="contact" on-click="toggleMessage" icon="icon:mail"></paper-icon-button>
                 </a>
        
               <!-- Bottom part of toolbar -->
               <div class="bottom main-title">
                     <a href="/basket">
-                  <paper-fab id="basket-icon" class="basket" mini icon="my-icons:shopping-basket"></paper-fab>
+                  <paper-fab id="basket-icon" class="basket" mini icon="icon:shopping-basket"></paper-fab>
                     </a>
 
                   <paper-badge class="numitems" for="basket-icon" label="[[numItems]]"></paper-badge>
@@ -138,9 +138,10 @@ Main application container element
 
           <!-- Selected view box -->
           <iron-pages
+            id="pages"
             selected="[[page]]"
             attr-for-selected="name"
-            fallback-selection="list"
+            fallback-selection="home"
             role="main">
 
               <shop-contact name="contact"></shop-contact>
@@ -148,7 +149,9 @@ Main application container element
               <shop-checkout name="checkout" total="[[total]]" num-items="[[numItems]]">
                 <content></content>
               </shop-checkout>
-              
+
+              <shop-home name="home"></shop-home>
+
               <shop-phone name="phone"></shop-phone>
               
               <shop-list name="list"></shop-list>
@@ -158,7 +161,6 @@ Main application container element
               <shop-basket name="basket" basket="[[basket]]" total="[[total]]" num-items="[[numItems]]"></shop-basket>
 
           </iron-pages>
-
              <div>
               <br><br><br><br><br><br><br><br><br><br>
               <br><br><br><br><br><br><br><br><br><br>
@@ -195,21 +197,31 @@ Main application container element
         'add-basket-item': '_onAddBasketItem',
         'set-basket-item': '_onSetBasketItem',
         'clear-basket': '_onClearBasket',
-        'change-section': '_onChangeSection'
+        'change-section': '_onChangeSection',
+        'scrollpos': '_scrollpos'
+      },
+
+      _scrollpos: function() {
+        console.log(this.$.header.scroller.scrollTop);
+        console.log(this.$);
       },
 
       created: function() {
         this.removeAttribute('unresolved');
       },
 
+      ready: function() {
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.importHref(this.resolveUrl('lazy-resources.html'), null, null, true);
+        });
+      },
+
       _onAddBasketItem: function(event) {
-        console.log(event);
         this.$.basket.addItem(event.detail);
       },
 
       _onSetBasketItem: function(event) {
-        var detail = event.detail;
-        this.$.basket.setItem(detail);
+        this.$.basket.setItem(event.detail);
       },
 
       _onClearBasket: function() {
@@ -217,48 +229,23 @@ Main application container element
       },
 
       _routePageChanged: function(page) {
-        this.page = page || 'list';
+        this.page = page || 'home';
       },
 
       _pageChanged: function(page, oldPage) {
+        // Scroll to top on page change
+        this.$.header.scroll(0, true);
 
-        if (page != null) {
-          // home route is eagerly loaded
-          if (page == 'list') {
-            this._ensureLazyLoaded();
-            
-            // other routes are lazy loaded
-          } else {
-            // When a load failed, it triggered a 404 which means we need to
-            // eagerly load the 404 page definition
-            var resolvedPageUrl = this.resolveUrl('shop-' + page + '.html');
-            this.importHref(resolvedPageUrl, null, this._showPage404, true);
-            
-          }
-        }
+        // When a load failed, it triggered a 404 which means we need to
+        // eagerly load the 404 page definition
+        var resolvedPageUrl = this.resolveUrl('shop-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
 
       },
-
-      _ensureLazyLoaded: function() {
-        // load lazy resources after render and set `loadComplete` when done.
-        if (!this.loadComplete) {
-          Polymer.RenderStatus.afterNextRender(this, function() {
-            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
-              // Register service worker if supported.
-              if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/service-worker.js');
-              }
-              // this._notifyNetworkStatus();
-              console.log(Polymer.RenderStatus);
-              this.loadComplete = true;
-            });
-          });
-        }
-      },
-
+      
 
       _showPage404: function() {
-        this.page = 'list';
+        this.page = 'home';
       },
     });
   </script>

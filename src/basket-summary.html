@@ -37,6 +37,8 @@ Basket summayy element
         font-family: 'Cabin', sans-serif;
         text-align: center;
         padding: 13px 0px;
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
       }
 
       .main {
@@ -103,9 +105,9 @@ Basket summayy element
         <span>[[_formatTotal(totalCost)]]</span>        
       </div>
       <div class="controls">
-        <paper-button on-click="_emptyCart"><iron-icon icon="my-icons:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
+        <paper-button on-click="_emptyCart"><iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
           <a href="/checkout">
-        <paper-button><iron-icon icon="my-icons:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
+        <paper-button><iron-icon icon="icon:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
           </a>
       </div>
     </div>
