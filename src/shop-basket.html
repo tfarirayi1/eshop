@@ -14,7 +14,7 @@ Shop basket element
     <style>
       :host {
         display: block;
-        padding: 13px;
+        padding-top: 21px;
       }
 
       .empty-basket {
@@ -52,6 +52,10 @@ Shop basket element
           type: Boolean,
           computed: '_computeHasItem(basket.length)'
         }
+      },
+
+      created: function() {
+        this.removeAttribute('unresolved');
       },
 
       _computeHasItem: function(basketLength) {

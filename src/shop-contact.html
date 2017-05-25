@@ -11,7 +11,7 @@ Contact form page
     <style>
       :host {
         display: block;
-        padding: 13px;
+        padding-top: 21px;
       }
     </style>
     <!-- Dom here -->
@@ -22,6 +22,10 @@ Contact form page
   <script>
     Polymer({
       is: 'shop-contact',
+
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
 
     });
   </script>

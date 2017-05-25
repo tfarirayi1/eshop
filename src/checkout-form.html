@@ -54,11 +54,12 @@ Checkout form element stripe api
           <input is="iron-input" type="email" prevent-invalid-input on-input="revalidate" spellcheck="false" label="Email" bind-value="{{email}}">
       </paper-input-container>
     </div>
+    
     <label for="payment_form">Payment Details</label>
+
     <form action="[[submitUrl]]" method="post" id="payment_form">
       <content></content>
-
-      <button>Submit Payment</button>
+      <paper-button>Submit Payment</paper-button>
     </form>
  
   </template>
@@ -68,6 +69,8 @@ Checkout form element stripe api
       is: 'checkout-form',
       
       properties: {
+        basketData: Array,
+        
         totalCost: Number,
 
         totalItems: Number,
@@ -75,8 +78,7 @@ Checkout form element stripe api
         errorMessage: {
           type: String,
           value: 'Hey',
-          notify: true,
-          observer: '_error'
+          notify: true
         },
 
         submitUrl: {
@@ -86,13 +88,7 @@ Checkout form element stripe api
 
       },
 
-      _error: function(newValue, oldValue)  {
-        console.log(newValue, oldValue);
-      },
-
       ready: function() {
-
-        console.log(this.totalCost);
         // AWS Identity Check
         AWS.config.region = 'eu-west-1'; // Region
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({

@@ -13,7 +13,7 @@ Shop phone page
     <style>
       :host {
         display: block;
-        padding: 13px;
+        padding-top: 21px;
       }
     </style>
     <!-- Dom here -->
@@ -24,7 +24,11 @@ Shop phone page
 
   <script>
     Polymer({
-      is: 'shop-phone'
+      is: 'shop-phone',
+
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
 
     });
   </script>

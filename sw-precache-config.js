@@ -12,10 +12,9 @@
 
 module.exports = {
   staticFileGlobs: [
-    '/src/shop-list.html',
-    '/src/shop-phone.html'
-    
+    '/index.html',
+    '/manifest.json',
+    '/bower_components/webcomponentsjs/webcomponents-lite.min.js',
   ],
   navigateFallback: 'index.html',
-  skipWaiting: true
 };

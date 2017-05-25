@@ -11,12 +11,12 @@ Checkout page
     <style>
       :host {
         display: block;
-        padding: 13px;
+        padding-top: 21px;
       }
     </style>
     <!-- Dom here -->
 
-    <checkout-form total-cost="[[total]]" total-items="[[numItems]]">
+    <checkout-form total-cost="[[total]]" total-items="[[numItems]]" basket-data="[[basket]]">
       <content></content>
     </checkout-form>
 
@@ -29,8 +29,15 @@ Checkout page
       properties: {
         total: Number,
 
-        numItems: Number
-      }
+        numItems: Number,
+
+        basket: Array
+      
+      },
+      
+      created: function() {
+        this.removeAttribute('unresolved');
+      },
       
     });
   </script>

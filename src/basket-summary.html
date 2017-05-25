@@ -27,8 +27,7 @@ Basket summayy element
         border-radius: 8px;
         border: 1px solid #CFD8DC;
         background-color: #455A64;
-        padding: 8px;
-        padding-top: 13px;
+        padding: 13px;
         @apply(--shadow-elevation-4dp);
       }
 
@@ -36,8 +35,9 @@ Basket summayy element
         color: #CFD8DC;  
         font-family: 'Cabin', sans-serif;
         text-align: center;
+        box-sizing: border-box;
         padding: 13px 0px;
-        @apply(--layout-vertical);
+        @apply(--layout-horizontal);
         @apply(--layout-center-justified);
       }
 
@@ -86,32 +86,35 @@ Basket summayy element
     </style>
     <!-- Dom here -->
 
-    <div class="empty-basket" hidden$="[[_hasItems]]">
-      Your basket is empty.
-    </div>
+    <template is="dom-if" if="[[!_hasItems]]">
+      <div class="empty-basket">
+        Your basket is empty.
+      </div>
+    </template>
 
-    <div class="main" hidden$="[[!_hasItems]]">
-      <div class="title">
-        Basket Summary
+    <template is="dom-if" if="[[_hasItems]]">
+      <div class="main">
+        <div class="title">
+          Basket Summary
+        </div>
+        <div class="row total">
+          <span>Total Items</span>
+          <span class="spacer"></span>
+          <span>[[totalItems]]</span>        
+        </div>
+        <div class="row total">
+          <span>Total Cost</span>
+          <span class="spacer"></span>
+          <span>[[_formatTotal(totalCost)]]</span>        
+        </div>
+        <div class="controls">
+          <paper-button on-click="_emptyCart"><iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
+            <a href="/checkout">
+          <paper-button><iron-icon icon="icon:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
+            </a>
+        </div>
       </div>
-      <div class="row total">
-        <span>Total Items</span>
-        <span class="spacer"></span>
-        <span>[[totalItems]]</span>        
-      </div>
-      <div class="row total">
-        <span>Total Cost</span>
-        <span class="spacer"></span>
-        <span>[[_formatTotal(totalCost)]]</span>        
-      </div>
-      <div class="controls">
-        <paper-button on-click="_emptyCart"><iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
-          <a href="/checkout">
-        <paper-button><iron-icon icon="icon:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
-          </a>
-      </div>
-    </div>
-
+    </template>
   </template>
 
   <script>
@@ -129,6 +132,9 @@ Basket summayy element
           type: Boolean,
           computed: '_computeHasItems(basketData.length)'
         }
+      },
+
+      ready: function() {
       },
 
       _emptyCart: function() {

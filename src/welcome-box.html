@@ -17,7 +17,7 @@ Welcome box element
         margin-left: auto;
         margin-right: auto;
         background-color: #ECEFF1;
-        background-color: rgba(207,216,220 ,0.9);
+        background-color: rgba(207,216,220 ,1);
         border-radius: 8px;
         color: #212121;
         padding: 13px;
@@ -26,7 +26,7 @@ Welcome box element
         border: 1px solid #FF8A65;
         /*background-color: #455A64;*/
         font-family: 'Cabin', sans-serif;  
-        font-family: 'Arvo', serif;
+        font-family: 'Raleway', sans-serif;
         @apply(--shadow-elevation-2dp); 
       }
 
@@ -49,6 +49,8 @@ Welcome box element
         color: #FF8A65;
         font-size: 14px;
         max-height: 36px;
+        padding-left: 8px;
+        padding-right: 8px;
         margin-top: 8px;
         text-align: center;
       }
@@ -58,13 +60,12 @@ Welcome box element
       }
     </style>
     <!-- Dom here -->
-    <div class="main">
-      Welcome to the demonstration website of our ESHOP implementation, which serves as the proof of concept. Use the fake card details provideed to make a demo purchase. Your order will be processed and you will be alerted through the email you supply.
-      Please note that you will not actually receive any goods when you order.
+    <div class="main"><p>
+      Welcome to the demo site of our ESHOP implementation. <br><br>Use the card details provided to make a pseudo purchase. Your order will be processed and you will be alerted through the email you supply.</p>
     </div>
     <div class="enter">
       <a href="/list">
-        <paper-button on-click="_log" class="enter">Enter</paper-button>
+        <paper-button class="enter">Enter</paper-button>
       </a>
     </div>
 

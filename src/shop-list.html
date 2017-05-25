@@ -19,7 +19,7 @@ Shop list element (Product list)
     <style>
       :host {
         display: block;
-        padding: 13px;
+        padding-top: 21px;
       }
     </style>
 
@@ -57,17 +57,10 @@ Shop list element (Product list)
         }
       },
 
-      attached: function() {
-        
-      },
-
-      ready: function() {
-        Polymer.RenderStatus.afterNextRender(this, function() {
-          // this.playAnimation('entry');
-          console.log('loaded');
-
-        });
-      },
+      created: function() {
+        this.removeAttribute('unresolved');
+      }
+      
     });
   </script>
 </dom-module>
