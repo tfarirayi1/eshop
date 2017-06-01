@@ -6,7 +6,7 @@ Checkout form element stripe api
 <!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Iron elements -->
-<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<!--<link rel="import" href="../bower_components/iron-form/iron-form.html">-->
 <link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
@@ -32,7 +32,6 @@ Checkout form element stripe api
         margin-top: -13px;
         box-sizing: border-box;
         border: 1px solid #CFD8DC;
-        border: 1px solid rgba(255,138,101 ,1);
         background-color: #455A64;
         @apply(--shadow-elevation-2dp);                                                                 
       }
@@ -48,7 +47,7 @@ Checkout form element stripe api
 
       paper-input-container {
           text-align: left;
-          /*font-size: 15px;*/
+          font-size: 15px;
           --paper-input-container-input: {
               color: rgba(236,239,241 ,1);
 
@@ -76,7 +75,6 @@ Checkout form element stripe api
               letter-spacing: 1px;
               color: rgba(207,216,220 ,0.9);
               color: rgba(255,138,101 ,1);
-              color: rgba(144,164,174 ,1);
               font-family: 'Roboto', monospace;
           }
       }
@@ -87,18 +85,17 @@ Checkout form element stripe api
         @apply(--layout-center);
         @apply(--layout-center-justified);
         margin-top: 13px;
-        padding: 0px 13px 21px 13px;
+        padding: 0px 8px 21px 8px;
         color: rgba(207,216,220 ,1);
-        font-size: 16px;
+        font-size: 18px;
         font-family: 'Cabin', sans-serif;
         font-family: 'Raleway', sans-serif;
       }
 
       .title {
-        max-width: 200px;
+        max-width: 180px;
         line-height: 150%;
         margin-left: 0;
-        letter-spacing: 1px;
       }
 
       .toggle {
@@ -106,9 +103,9 @@ Checkout form element stripe api
       }
 
       paper-button.billing {
+        font-style: italic;
         width: fit-content;
-        text-transform: none;
-        font-size: 12px;
+        font-size: 11px;
         border-radius: 0px;
         min-width: 120px;
         max-width: 120px;
@@ -127,7 +124,7 @@ Checkout form element stripe api
       }
 
       paper-button.pay {
-        border-radius: 2px;
+        border-radius: 0px;
         font-size: 13px;
         font-family: 'Roboto Condensed', sans-serif;
         font-family: 'Raleway', sans-serif;
@@ -145,34 +142,12 @@ Checkout form element stripe api
       }
 
       .field {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 13px;
+        padding-right: 13px;
       }
 
       .spacer {
         @apply(--layout-flex);
-      }
-
-      .form {
-        padding: 0px 15px;
-        color: white;
-      }
-
-      .card {
-        background-color: rgba(38,50,56 ,0.9);
-        padding: 13px 8px;
-        margin-left: 13px;
-        border-radius: 10px 0px 0px 10px;
-      }
-
-      .stripe-label {
-        font-size: 14px;
-        letter-spacing: 1px;
-        color: rgba(207,216,220 ,0.9);
-        color: rgba(255,138,101 ,1);
-        font-family: 'Roboto', monospace;
-        line-height: 150%;
-        
       }
     </style>
     <!-- Dom here -->
@@ -232,6 +207,7 @@ Checkout form element stripe api
       </paper-input-container>
     </div>
 
+
   <template is="dom-if" if="[[hasBilling]]">
     <div class="dot"></div>
    <div class="section">
@@ -251,44 +227,35 @@ Checkout form element stripe api
       </paper-input-container>
 
       <paper-input-container  always-float-label>
-          <label>City:</label>
+          <label>City</label>
           <input is="iron-input" type="email" spellcheck="false">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
-          <label>Postcode:</label>
+          <label>Postcode</label>
           <input is="iron-input" type="email" spellcheck="false">
       </paper-input-container>
     </div>
   </template>
     
     <div class="section toggle">
-      <!--<span class="spacer"></span>-->
-      <paper-button class="billing" on-click="_toggleBilling" noink>[[toggleTitle]]</paper-button>
+      <span class="spacer"></span>
+      <paper-button class="billing" on-click="_toggleBilling">[[toggleTitle]]</paper-button>
     </div>
-
-    <!--<iron-collapse id="pay" class="card" no-animation>-->
-    <form action="[[submitUrl]]" method="post" id="payment_form" class="form card">
-      <div class="stripe-group">
-        <label class="stripe-label">Card Number:</label>
-        <content select="#card_code"></content>
-      </div>
-      <div class="stripe-group">
-        <label class="stripe-label">Expiry Date:</label>
-        <content select="#card_date"></content>
-      </div>
-    </form>
-    <!--</iron-collapse>-->
+    <!--<form action="[[submitUrl]]" method="post" id="payment_form">
+      <content></content>
+    </form>-->
 
   <div class="section">
-    <paper-button class="pay" on-click="sendPayment">Pay Now</paper-button>
+      <paper-button class="pay">Payment Details</paper-button>
+      <!--<span class="spacer"></span>-->
   </div>
 
   </template>
 
   <script>
     Polymer({
-      is: 'checkout-form',
+      is: 'confirmation-page',
       
       properties: {
 
@@ -322,19 +289,8 @@ Checkout form element stripe api
         submitUrl: {
           type: String,
           value: 'https://j2su17zxab.execute-api.eu-west-1.amazonaws.com/prod/StripeService'
-        },
-
-        payNow: {
-          type: Boolean,
-          value: false
         }
 
-      },
-
-      togglePay: function() {
-        this.payNow = true;
-        this.$.pay.toggle();
-        console.log('PAY!');
       },
 
       _computeAddress: function(check) {
@@ -342,128 +298,82 @@ Checkout form element stripe api
       },
 
       _computeToggleTitle: function(check) {
-        return check ? 'Single Address?' : 'Separate Billing Address?';
+        return check ? 'Same Delivery & Billing Address' : 'Separate Billing Address';
       },
 
       _toggleBilling: function() {
         this.hasBilling = !this.hasBilling;
-      },
+      }
 
-      ready: function() {
+      // ready: function() {
 
-        console.log(this.totalItems);
-        console.log(JSON.stringify(this.basketData));
-        console.log(this.totalCost);
-        // AWS Identity Check
-        AWS.config.region = 'eu-west-1'; // Region
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: 'eu-west-1:29a3ccbb-f1e8-4801-87cb-171af721855a'
-        });
+      //   console.log(this.totalItems);
+      //   console.log(JSON.stringify(this.basketData));
+      //   console.log(this.totalCost);
+      //   // AWS Identity Check
+      //   AWS.config.region = 'eu-west-1'; // Region
+      //   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      //       IdentityPoolId: 'eu-west-1:29a3ccbb-f1e8-4801-87cb-171af721855a'
+      //   });
 
-        var main = this;
-        var stripe = Stripe('pk_test_iFA4WGrOjzFb9pgHretwnXlq');
-        var elements = stripe.elements();
+      //   var main = this;
+      //   var stripe = Stripe('pk_test_iFA4WGrOjzFb9pgHretwnXlq');
+      //   var elements = stripe.elements();
 
-        var card_num = this.queryEffectiveChildren('#card_code');
-        var card_exp = this.queryEffectiveChildren('#card_date');
-        var form = this.$.payment_form;
+      //   var card_el = this.queryEffectiveChildren('#card_element');
+      //   var error_el = this.queryEffectiveChildren('#card_errors');
+      //   var form = this.$.payment_form;
 
-        var cardNumber = elements.create('cardNumber', {
-          style: {
-            base: {
-              fontSize: '16px',
-              lineHeight: '24px',
-              color: 'rgba(236,239,241 ,1)',
-              '::placeholder': {
-                color: 'rgba(69,90,100 ,1)',
-              },
-            }
-          }
-        });
+      //   var card = elements.create('card', {
+      //     style: {
+      //       base: {
+      //         fontSize: '16px',
+      //         lineHeight: '24px'
+      //       }
+      //     }
+      //   });
 
-        var cardExpiry = elements.create('cardExpiry', {
-          style: {
-            base: {
-              fontSize: '16px',
-              lineHeight: '24px',
-              color: 'rgba(236,239,241 ,1)',
-              '::placeholder': {
-                color: 'rgba(69,90,100 ,1)',
-              },
-            }
-          }
-        });
+      //   card.mount(card_el);
+      //   card.addEventListener('change', function(event) {
+      //     console.log(event);
+      //     if (event.error) {
+      //       error_el.textContent = event.error.message;
 
-        cardNumber.mount(card_num);
-        cardExpiry.mount(card_exp);
-        cardNumber.addEventListener('change', function(event) {
-          console.log(event);
-          if (event.error) {
-            error_el.textContent = event.error.message;
-
-          } else {
-            error_el.textContent = '';
+      //     } else {
+      //       error_el.textContent = '';
             
-          }
-        });
+      //     }
+      //   });
 
-        form.addEventListener('submit', function(event) {
-          event.preventDefault();
-          stripe.createToken(card).then(function(result) {
-            if (result.error) {
-              // Inform the user if there was an error
-              error_el.textContent = result.error.message;
+      //   form.addEventListener('submit', function(event) {
+      //     event.preventDefault();
+      //     stripe.createToken(card).then(function(result) {
+      //       if (result.error) {
+      //         // Inform the user if there was an error
+      //         error_el.textContent = result.error.message;
 
-            } else {
-              // Send the token to your server
-              console.log(result);
-              stripeTokenHandler(result.token);
-            }
-          });
-        });
+      //       } else {
+      //         // Send the token to your server
+      //         console.log(result);
+      //         stripeTokenHandler(result.token);
+      //       }
+      //     });
+      //   });
 
-        function stripeTokenHandler(token) {
-          // Insert the token ID into the form so it gets submitted to the server
-          var hiddenInput = document.createElement('input');
-          hiddenInput.setAttribute('type', 'hidden');
-          hiddenInput.setAttribute('name', 'stripeToken');
-          hiddenInput.setAttribute('value', token.id);
-          form.appendChild(hiddenInput);
+      //   function stripeTokenHandler(token) {
+      //     // Insert the token ID into the form so it gets submitted to the server
+      //     var hiddenInput = document.createElement('input');
+      //     hiddenInput.setAttribute('type', 'hidden');
+      //     hiddenInput.setAttribute('name', 'stripeToken');
+      //     hiddenInput.setAttribute('value', token.id);
+      //     form.appendChild(hiddenInput);
 
-          console.log(token.id);
-          // Submit the form
-          // form.submit();
-        }
+      //     console.log(token.id);
+      //     // Submit the form
+      //     // form.submit();
+      //   }
 
-      },
-
-      send: function() {
-            // Lambda service object
-            var lambda = new AWS.Lambda({
-                region: 'eu-west-1',
-                apiVersion: '2015-03-31'
-            });
-
-            // Lambda invoke params
-            var lambdaParams = {
-                FunctionName : 'message',
-                InvocationType : 'RequestResponse',
-                LogType: 'Tail',
-                Payload: JSON.stringify({
-                    "message": this.message,
-                    "email": this.email
-
-                }),
-            };
-
-            // Lambda invoke!
-            var main = this;
-            lambda.invoke(lambdaParams, function(err, data) {
-              if (err) result(err);
-                else result(data.StatusCode);
-            });
-            
-        },
+      // }
 
     });
   </script>

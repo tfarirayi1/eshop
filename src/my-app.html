@@ -22,15 +22,16 @@ Main application container element
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <!-- Iron elements -->
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <!-- Custom elements -->
 <link rel="import" href="my-icons.html">
-<link rel="import" href="shop-home.html">
+<link rel="import" href="my-styles.html">
 <link rel="import" href="shopping-basket-data.html">
 
 <dom-module id="my-app">
   <template>
-    <style>
+    <style include="my-styles">
       :host {
         display: block;
         @apply(--layout-fullbleed);
@@ -68,14 +69,14 @@ Main application container element
      }
 
      app-toolbar.top-bar {
-        height: 52px;
+        height: 50px;
         @apply(--layout-center-justified);
         @apply(--layout-horizontal);
         @apply(--layout-end);
      }
 
      app-toolbar.bottom-bar {
-        height: 60px; 
+        height: 62px; 
         @apply(--layout-horizontal);
         @apply(--layout-end);
         @apply(--layout-center-justified);
@@ -87,21 +88,30 @@ Main application container element
       }
 
       .tools {
-        max-width: 320px;
+        /*max-width: 320px;*/
         @apply(--layout-horizontal);
         @apply(--layout-center);
-        @apply(--layout-space-around);
+        @apply(--layout-center-justified);
 
       }
 
       .home {
         color: rgba(255,138,101 ,0.8);
+      }
 
+      .home:hover {
+        color: rgba(255,138,101 ,0.6);
       }
 
       a {
         color: #546E7A;
         
+      }
+
+      iron-icon {
+        --iron-icon-height: 25px;
+        --iron-icon-width: 25px;
+        padding: 0px 8px;
       }
 
       a:hover {
@@ -130,21 +140,21 @@ Main application container element
           <app-toolbar class="top-bar">
             <div class="tools">
                 <a href="https://ohwd.co.uk" target="_blank" class="home">
-              <paper-icon-button icon="icon:home"></paper-icon-button>
+                  <iron-icon icon="icon:domain"></iron-icon>
                 </a>
 
-              <span class="spacer"></span>
+                <span class="spacer"></span>
 
                 <a href="/info">
-              <paper-icon-button icon="icon:info-outline"></paper-icon-button>
+                  <iron-icon icon="icon:info-outline"></iron-icon>
                 </a>
 
                 <a href="/phone">
-              <paper-icon-button icon="icon:phone-iphone"></paper-icon-button>
+                  <iron-icon icon="icon:phone-iphone"></iron-icon>
                 </a>
 
                 <a href="/contact">
-              <paper-icon-button icon="icon:mail"></paper-icon-button>
+                  <iron-icon icon="icon:mail"></iron-icon>
                 </a>
             </div>
           </app-toolbar>
@@ -183,12 +193,10 @@ Main application container element
               <shop-basket name="basket" basket="[[basket]]" total="[[total]]" num-items="[[numItems]]" unresolved></shop-basket>
 
           </iron-pages>
-             <!--<div>
-              <br><br><br><br><br><br><br><br><br><br>
-              <br><br><br><br><br><br><br><br><br><br>
-              <br><br><br><br><br><br><br><br><br><br>
-              <br><br><br><br><br><br><br><br><br><br>
-            </div>-->
+          <span class="spacer"></span>
+          <div class="my-footer">
+            &copy; Orange House WEB-DEV&trade;
+          </div>
 
         </app-header-layout>
      
@@ -220,20 +228,13 @@ Main application container element
         'set-basket-item': '_onSetBasketItem',
         'clear-basket': '_onClearBasket',
         'change-section': '_onChangeSection',
-        'scrollpos': '_scrollpos'
-      },
-
-      _scrollpos: function() {
-        console.log(this.$.header.scroller.scrollTop);
-        console.log(this.$);
       },
 
       created: function() {
         this.removeAttribute('unresolved');
-      },
-
-      ready: function() {
-          // this.importHref(this.resolveUrl('lazy-resources.html'), null, null, true);
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.importHref(this.resolveUrl('lazy-resources.html'), null, null, true);
+        });
       },
 
       _onAddBasketItem: function(event) {
@@ -253,36 +254,12 @@ Main application container element
       },
 
       _pageChanged: function(page, oldPage) {
-        if (page != null) {
-          // home route is eagerly loaded
-          if (page == 'home') {
-            this._ensureLazyLoaded();
-          // other routes are lazy loaded
-          } else {
-            // When a load failed, it triggered a 404 which means we need to
-            // eagerly load the 404 page definition
-            var cb = this._ensureLazyLoaded();
-            this.importHref(
-              this.resolveUrl('shop-' + page + '.html'),
-              cb, cb, false);
-          }
-        }
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('shop-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
 
-        this.$.header.scroll(0, true);
-        
       },
 
-      _ensureLazyLoaded: function() {
-        // load lazy resources after render and set `loadComplete` when done.
-        if (!this.loadComplete) {
-          Polymer.RenderStatus.afterNextRender(this, function() {
-            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
-              this.loadComplete = true;
-            });
-          });
-        }
-      },
-      
       _showPage404: function() {
         this.page = 'info';
       },

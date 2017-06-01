@@ -67,8 +67,28 @@ Basket summayy element
         width: 100%;
       }
 
+      paper-button.shop {
+        margin: auto;
+        font-family: 'Cabin', sans-serif;  
+      }
+
+      .dot {
+          border-bottom: 1px solid #607D8B;
+          margin-top: 13px;
+          margin-bottom: 13px;
+          width: 1px;
+          margin-left: auto;
+          margin-right: auto;
+      }
+
       a {
         text-decoration: none;
+      }
+
+      .digit {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 18px; 
+        letter-spacing: 1px;
       }
 
       .title {
@@ -78,6 +98,10 @@ Basket summayy element
 
       .row {
         @apply(--layout-horizontal);
+      }
+
+      .total {
+        line-height: 150%;
       }
 
       .spacer {
@@ -90,6 +114,11 @@ Basket summayy element
       <div class="empty-basket">
         Your basket is empty.
       </div>
+      <div class="shop-here">
+        <a href="/list">
+          <paper-button class="shop" noink>Shop Here</paper-button>
+        </a>
+      </div>
     </template>
 
     <template is="dom-if" if="[[_hasItems]]">
@@ -97,15 +126,23 @@ Basket summayy element
         <div class="title">
           Basket Summary
         </div>
+
+        <div class="dot"></div>
+
         <div class="row total">
           <span>Total Items</span>
           <span class="spacer"></span>
-          <span>[[totalItems]]</span>        
+          <span class="digit">[[totalItems]]</span>        
         </div>
         <div class="row total">
           <span>Total Cost</span>
           <span class="spacer"></span>
-          <span>[[_formatTotal(totalCost)]]</span>        
+          <span class="digit">[[_formatTotal(totalCost)]]</span>        
+        </div>
+        <div class="row total">
+          <span>Delivery Cost</span>
+          <span class="spacer"></span>
+          <span class="digit">[[_formatTotal(totalCost)]]</span>        
         </div>
         <div class="controls">
           <paper-button on-click="_emptyCart"><iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
@@ -132,6 +169,7 @@ Basket summayy element
           type: Boolean,
           computed: '_computeHasItems(basketData.length)'
         }
+        
       },
 
       ready: function() {

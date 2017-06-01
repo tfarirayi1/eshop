@@ -4,7 +4,7 @@ Checkout page
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="checkout-form.html">
+<link rel="import" href="checkout-form.html" async>
 
 <dom-module id="shop-checkout">
   <template>
@@ -15,7 +15,6 @@ Checkout page
       }
     </style>
     <!-- Dom here -->
-
     <checkout-form total-cost="[[total]]" total-items="[[numItems]]" basket-data="[[basket]]">
       <content></content>
     </checkout-form>
