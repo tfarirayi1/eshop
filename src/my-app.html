@@ -2,9 +2,7 @@
 Main application container element 
 @tfarirayi1
 -->
-<!-- Fonts import -->
-<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Roboto+Condensed|Oswald|Cabin|Comfortaa" rel="stylesheet">
-
+<!-- Dependencies -->
 <!-- Polymer Dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- App elements -->
@@ -24,6 +22,8 @@ Main application container element
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<!-- Google fonts -->
+<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Roboto+Condensed|Oswald|Cabin|Comfortaa" rel="stylesheet">
 <!-- Custom elements -->
 <link rel="import" href="my-icons.html">
 <link rel="import" href="my-styles.html">
@@ -37,6 +37,25 @@ Main application container element
         @apply(--layout-fullbleed);
         @apply(--layout-vertical);
       }
+
+      app-header {
+       height: 112px;
+     }
+
+      app-toolbar.top-bar {
+        height: 50px;
+        @apply(--layout-center-justified);
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+     }
+
+     app-toolbar.bottom-bar {
+        height: 62px; 
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+        @apply(--layout-center-justified);
+     }     
+
 
       iron-pages {
         padding: 13px 0px;
@@ -62,29 +81,6 @@ Main application container element
         --paper-badge-text-color: rgba(255,138,101 ,0.9);
         --paper-badge-width: 30px;
         --paper-badge-height: 30px;
-      }
-
-     app-header {
-       height: 112px;
-     }
-
-     app-toolbar.top-bar {
-        height: 50px;
-        @apply(--layout-center-justified);
-        @apply(--layout-horizontal);
-        @apply(--layout-end);
-     }
-
-     app-toolbar.bottom-bar {
-        height: 62px; 
-        @apply(--layout-horizontal);
-        @apply(--layout-end);
-        @apply(--layout-center-justified);
-     }     
-
-      /* Utils */
-      .spacer {
-        @apply(--layout-flex);
       }
 
       .tools {

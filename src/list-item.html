@@ -254,7 +254,7 @@ Shop list item (Single product detail)
         <span class="price">
           [[_formatPrice(price)]]
         </span>
-        <iron-icon class="arrow" icon="{{arrow}}"></iron-icon>
+        <iron-icon class="arrow" icon="[[arrow]]"></iron-icon>
       </paper-button>
       
       <span class="spacer"></span>      
@@ -353,7 +353,7 @@ Shop list item (Single product detail)
 
         arrow: {
           type: String,
-          value: 'my-icons:arrow-drop-down'
+          value: 'icon:arrow-drop-down'
         },
         
         dropped: {
@@ -387,8 +387,8 @@ Shop list item (Single product detail)
       },
 
       _arrow: function(newValue, oldValue) {
-        if (newValue) this.arrow = 'my-icons:arrow-drop-down';
-        if (!newValue) this.arrow = 'my-icons:arrow-drop-up';
+        if (newValue) this.arrow = 'icon:arrow-drop-down';
+        if (!newValue) this.arrow = 'icon:arrow-drop-up';
       },
 
       _addToCart: function() {
