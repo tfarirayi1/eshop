@@ -20,20 +20,18 @@ Checkout form element stripe api
 
 <dom-module id="checkout-form">
   <template>
-    <style>
+    <style include="my-styles">
       :host {
         display: block;
-        max-width: 300px;
+        background-color: #455A64;
+        border: 1px solid rgba(255,138,101 ,1);
+        border-radius: 8px;
+        box-sizing: border-box;
         margin-left: auto;
         margin-right: auto;
-        background-color: #ECEFF1;
-        border-radius: 8px;
-        padding-top: 13px;
         margin-top: -13px;
-        box-sizing: border-box;
-        border: 1px solid #CFD8DC;
-        border: 1px solid rgba(255,138,101 ,1);
-        background-color: #455A64;
+        max-width: 300px;
+        padding-top: 13px;
         @apply(--shadow-elevation-2dp);                                                                 
       }
 
@@ -48,50 +46,49 @@ Checkout form element stripe api
 
       paper-input-container {
           text-align: left;
-          /*font-size: 15px;*/
-          --paper-input-container-input: {
-              color: rgba(236,239,241 ,1);
-
-          };
+          /* Mixins */
           --paper-input-container-invalid-color: #BF360C;
+
           --paper-input-container-color: rgba(176,190,197 ,1);
+
           --paper-input-container-focus-color: rgba(38,50,56 ,1);
 
           --paper-input-container-label-focus: {
-              color: rgba(236,239,241 ,1);
-              color: rgba(207,216,220 ,1);
-              color: rgba(255,171,145 ,1);
               color: rgba(255,138,101 ,1);
-              
-          }
-          /*--paper-input-container-underline: {
+          };
 
-              background-color: rgba(236,239,241 ,1);
-              background-color: rgba(176,190,197 ,1);
-              background-color: rgba(69,90,100 ,1);
-              color: red;
-          }*/
           --paper-input-container-label: {
               font-size: 18px;
               letter-spacing: 1px;
-              color: rgba(207,216,220 ,0.9);
-              color: rgba(255,138,101 ,1);
               color: rgba(144,164,174 ,1);
               font-family: 'Roboto', monospace;
-          }
+          };
+
+          --paper-input-container-input: {
+              color: rgba(236,239,241 ,1);
+          };
+      }
+
+      .pay-section {
+        color: rgba(207,216,220 ,1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 14px;
+        padding: 21px 13px 21px 13px;
+        text-align: center;
+        @apply(--layout-vertical);
+        
       }
 
       .section {
         box-sizing: border-box;
+        color: rgba(207,216,220 ,1);
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px;
+        margin-top: 13px;
+        padding: 0px 13px 21px 13px;
         @apply(--layout-horizontal);
         @apply(--layout-center);
         @apply(--layout-center-justified);
-        margin-top: 13px;
-        padding: 0px 13px 21px 13px;
-        color: rgba(207,216,220 ,1);
-        font-size: 16px;
-        font-family: 'Cabin', sans-serif;
-        font-family: 'Raleway', sans-serif;
       }
 
       .title {
@@ -106,37 +103,41 @@ Checkout form element stripe api
       }
 
       paper-button.billing {
-        width: fit-content;
-        text-transform: none;
-        font-size: 12px;
         border-radius: 0px;
-        min-width: 120px;
-        max-width: 120px;
-        text-align: center;
-        color: rgba(144,164,174 ,1);
         color: rgba(176,190,197 ,1);
-        /*background-color: rgba(144,164,174 ,1);*/
+        color: rgba(33,33,33 ,1);
+        font-size: 12px;
+        max-width: 120px;
+        min-width: 120px;
+        text-align: center;
+        text-transform: none;
+        width: fit-content;
       }
 
       paper-button.billing:focus {
         font-weight: normal;
       }
 
-      paper-button.pay:focus {
-        font-weight: normal;
+      paper-button.pay {
+        background-color: rgba(38,50,56 ,0.9);
+        border-radius: 2px;
+        color: rgba(255,138,101 ,1);
+        font-size: 13px;
+        font-family: 'Raleway', sans-serif;
+        letter-spacing: 1px;
+        margin-top: 13px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 72%;
       }
 
-      paper-button.pay {
-        border-radius: 2px;
-        font-size: 13px;
-        font-family: 'Roboto Condensed', sans-serif;
-        font-family: 'Raleway', sans-serif;
-        color: rgba(255,138,101 ,1);
-        background-color: rgba(38,50,56 ,0.9);
-        width: 72%;
-        margin: auto;
-        /*padding: 13px 21px 21px 13px;*/
-        letter-spacing: 1px;
+      paper-button.pay[disabled] {
+        background-color: rgba(38,50,56 ,0.4);
+        color: rgba(255,138,101 ,0.7);
+      }
+
+      paper-button.pay:focus {
+        font-weight: normal;
       }
 
       iron-icon {
@@ -279,13 +280,11 @@ Checkout form element stripe api
         <label class="stripe-label">CVC:</label>
         <content select="#card_sec"></content>
       </div>
-      <div class="stripe-group">
-        <label class="stripe-label">Errors:</label>
-        <content select="#card_errors"></content>
-      </div>
     </form>
 
-  <div class="section">
+  <div class="pay-section">
+    <content select="#card_errors"></content>
+    [[test]]
     <paper-button id="pay_now" class="pay">Pay Now</paper-button>
   </div>
 
@@ -372,9 +371,13 @@ Checkout form element stripe api
           value: '',
         },
 
-        basketData: Array,
+        basketData: {
+          type:Array
+        },
         
-        totalCost: Number,
+        totalCost: {
+          type: Number
+        },
 
         errorMessage: {
           type: String,
@@ -391,23 +394,24 @@ Checkout form element stripe api
 
       _computeOrder: function(customerFirst, customerLast, customerEmail, deliveryLineA, deliveryLineB, deliveryCity, deliveryPostcode, billingLineA, billingLineB, billingCity, billingPostcode) {
         var order = {
-          "order": this.basketData,
-          "cost": this.totalCost,
-          "customer": {
-            "firstName": customerFirst,
-            "lastName": customerLast
+          items: this.basketData,
+          cost: this.totalCost * 100,
+          customer: {
+            firstName: customerFirst,
+            lastName: customerLast,
+            email: customerEmail
           },
-          "deliveryAddress": {
-            "addressOne": deliveryLineA,
-            "addressTwo": deliveryLineB,
-            "city": deliveryCity,
-            "postcode": deliveryPostcode
+          deliveryAddress: {
+            addressOne: deliveryLineA,
+            addressTwo: deliveryLineB,
+            city: deliveryCity,
+            postcode: deliveryPostcode
           },
-          "billingAddress": {
-            "addressOne": billingLineA,
-            "addressTwo": billingLineB,
-            "city": billingCity,
-            "postcode": billingPostcode
+          billingAddress: {
+            addressOne: billingLineA,
+            addressTwo: billingLineB,
+            city: billingCity,
+            postcode: billingPostcode
           }
         };
 
@@ -464,6 +468,7 @@ Checkout form element stripe api
         var cardNumber = elements.create('cardNumber', style);
         var cardExpiry = elements.create('cardExpiry', style);
         var cardCvc = elements.create('cardCvc', style);
+
         // Mount elements
         cardNumber.mount(card_num);
         cardExpiry.mount(card_exp);
@@ -472,70 +477,65 @@ Checkout form element stripe api
         cardNumber.addEventListener('change', function(event) {
           error_el.textContent = event.error ? event.error.message : '';
         });
-
-        console.log(paymentButton);
+        
+        // cardCvc.addEventListener('change', function(event) {
+        //   error_el.textContent = event.error ? event.error.message : '';
+        // });
 
         paymentButton.addEventListener('click', function(event) {
+          // main.$.pay_now.setAttribute('disabled', false);
+          error_el.textContent = 'Creating Token';
+          
           stripe.createToken(cardNumber).then(function(result) {
             if (result.error) {
               // Inform the user if there was an error
+              // setTimeout(function(){ main.$.pay_now.removeAttribute('disabled'); }, 5000);
               error_el.textContent = result.error.message;
-              console.log(result.error.message);
+              
             } else {
-              // Send the token to your server
-              console.log(result);
-              // stripeTokenHandler(result.token);
+              // Send the token.id to your server
+              error_el.textContent = 'Submitting Payment...';
+              submitToken(result.token);
             }
           });
 
         });
 
-        // function stripeTokenHandler(token) {
-        //   // Insert the token ID into the form so it gets submitted to the server
-        //   var hiddenInput = document.createElement('input');
-        //   hiddenInput.setAttribute('type', 'hidden');
-        //   hiddenInput.setAttribute('name', 'stripeToken');
-        //   hiddenInput.setAttribute('value', token.id);
-        //   form.appendChild(hiddenInput);
+        // Submit function
+        function submitToken(token) {
+          
+          // Lambda service object
+          var lambda = new AWS.Lambda({
+              region: 'eu-west-1',
+              apiVersion: '2015-03-31'
+          });
 
-        //   console.log(token.id);
-        //   // Submit the form
-        //   // form.submit();
-        // }
+          // Lambda invoke params
+          var lambdaParams = {
+              FunctionName : 'pay-stripe',
+              InvocationType : 'RequestResponse',
+              LogType: 'Tail',
+              Payload: JSON.stringify({
+                  "order": main.order,
+                  "token": token.id
+              }),
+          };
 
-      },
+          // Lambda invoke!
+          lambda.invoke(lambdaParams, function(err, data) {
+            if (err) {
+                main.$.pay_now.removeAttribute('disabled'); 
+            } else {
+              var result = JSON.parse(data.Payload)
+              result.type === 'authorized' ? error_el.textContent = result.seller_message : error_el.textContent = result.message;
+              console.log(result);
+            }
 
-      sendPayment: function() {
-        this.fire('stripe', {});
-      },
+          });
 
-      send: function() {
+        }
 
-            // Lambda service object
-            var lambda = new AWS.Lambda({
-                region: 'eu-west-1',
-                apiVersion: '2015-03-31'
-            });
-
-            // Lambda invoke params
-            var lambdaParams = {
-                FunctionName : 'pay-stripe',
-                InvocationType : 'RequestResponse',
-                LogType: 'Tail',
-                Payload: JSON.stringify({
-                    "order": this.order,
-                    "cost": this.totalCost
-                }),
-            };
-
-            // Lambda invoke!
-            var main = this;
-            lambda.invoke(lambdaParams, function(err, data) {
-              if (err) result(err);
-                else result(data.StatusCode);
-            });
-            
-        },
+      }
 
     });
   </script>
