@@ -2,7 +2,6 @@
 Shop list element (Product list)
 @tfarirayi1
 -->
-
 <!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Iron elements -->
@@ -40,25 +39,10 @@ Shop list element (Product list)
     Polymer({
       is: 'shop-list',
 
-      behaviors: [
-        Polymer.NeonAnimationRunnerBehavior
-      ], 
-
-      properties: {
-        animationConfig: {
-          value: function() {
-            return {
-              'entry': {
-                name: 'fade-in-animation',
-                node: this
-              }
-            }
-          }
-        }
-      },
-
       created: function() {
-        this.removeAttribute('unresolved');
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.importHref(this.resolveUrl('shop-basket.html'), null, null, true);
+        });
       }
       
     });

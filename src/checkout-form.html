@@ -2,7 +2,6 @@
 Checkout form element stripe api
 @tfarirayi1
 -->
-
 <!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Iron elements -->
@@ -13,9 +12,17 @@ Checkout form element stripe api
 <!-- Paper elements -->
 <link rel="import" href="../bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<!-- Neon elements -->
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<!-- Gold elements -->
+<link rel="import" href="../bower_components/gold-cc-input/gold-cc-input.html">
+<link rel="import" href="../bower_components/gold-cc-expiration-input/gold-cc-expiration-input.html">
+<link rel="import" href="../bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html">
 <!-- Custom elements -->
 <link rel="import" href="aws-sdk.html">
-<link rel="import" href="stripe-sdk.html">
+<link rel="import" href="braintree-sdk.html">
 <link rel="import" href="my-icons.html">
 
 <dom-module id="checkout-form">
@@ -36,14 +43,29 @@ Checkout form element stripe api
       }
 
       .dot {
-          border-bottom: 1px solid #607D8B;
-          margin-top: 21px;
-          margin-bottom: 21px;
-          width: 1px;
-          margin-left: auto;
-          margin-right: auto;
+        border-bottom: 1px solid #607D8B;
+        margin-top: 21px;
+        margin-bottom: 21px;
+        width: 1px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
+      .number-input, .exp-input, .cvc-input {
+          --paper-input-container-color: rgba(176,190,197 ,1);
+          --paper-input-container-focus-color: rgba(236,239,241 ,1);
+          --paper-input-container-label-focus: {
+              color: rgba(255,138,101 ,1);
+          };
+          --paper-input-container-input: {
+              color: rgba(236,239,241 ,1);
+          };
+ 
+          --paper-input-container-input-color: red;
+          
+          --paper-input-container-invalid-color: rgba(255,138,101 ,1);
+
+      }
       paper-input-container {
           text-align: left;
           /* Mixins */
@@ -102,6 +124,9 @@ Checkout form element stripe api
         box-sizing: border-box;
       }
 
+      .field-row {
+        @apply(--layout-horizontal);
+      }
       paper-button.billing {
         border-radius: 0px;
         color: rgba(176,190,197 ,1);
@@ -161,9 +186,19 @@ Checkout form element stripe api
 
       .card {
         background-color: rgba(38,50,56 ,0.9);
-        padding: 13px 8px;
+        padding-bottom: 8px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0; 
         margin-left: 13px;
         border-radius: 10px 0px 0px 10px;
+      }
+
+      .exp-input {
+        color: red;
+      }
+
+      .card-errors {
       }
 
       .stripe-label {
@@ -175,10 +210,13 @@ Checkout form element stripe api
         line-height: 150%;
         
       }
+      .exp {
+        max-width: 40%; 
+      }
     </style>
     <!-- Dom here -->
 
-    <div class="section title">
+    <div auto class="section title">
       <span>Your Details</span>
       <span class="spacer"></span>
     </div>
@@ -200,7 +238,7 @@ Checkout form element stripe api
       <!-- Email field -->
       <paper-input-container  always-float-label>
           <label>Email Address:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{customerEmail}}">
+          <input is="iron-input" type="email" prevent-invalid-input autofocus="true" spellcheck="false" bind-value="{{customerEmail}}">
       </paper-input-container>
     </div>
 
@@ -214,22 +252,22 @@ Checkout form element stripe api
     <div class="field">
       <paper-input-container  always-float-label>
           <label>Address Line 1:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{deliveryLineA}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{deliveryLineA}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>Address Line 2:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{deliveryLineB}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{deliveryLineB}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>City:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{deliveryCity}}">
+          <input is="iron-input" type="text" required spellcheck="false" bind-value="{{deliveryCity}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>Postcode:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{deliveryPostcode}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{deliveryPostcode}}">
       </paper-input-container>
     </div>
 
@@ -243,22 +281,22 @@ Checkout form element stripe api
     <div class="field">
       <paper-input-container  always-float-label>
           <label>Address Line 1:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{billingLineA}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{billingLineA}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>Address Line 2:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{billingLineB}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{billingLineB}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>City:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{billingCity}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{billingCity}}">
       </paper-input-container>
 
       <paper-input-container  always-float-label>
           <label>Postcode:</label>
-          <input is="iron-input" type="email" spellcheck="false" bind-value="{{billingPostcode}}">
+          <input is="iron-input" type="text" spellcheck="false" bind-value="{{billingPostcode}}">
       </paper-input-container>
     </div>
   </template>
@@ -268,24 +306,24 @@ Checkout form element stripe api
     </div>
 
     <form id="payment_form" class="form card">
-      <div class="stripe-group">
-        <label class="stripe-label">Card Number:</label>
-        <content select="#card_code"></content>
+      <div class="field">
+        {{cardNumber}}
+        <gold-cc-input class="number-input" label="Card Number:" value="{{card_number}}" auto-validate error-message="Card type unrecognised..." always-float-label></gold-cc-input>
+        <div class="field-row">
+          <gold-cc-expiration-input class="exp-input exp" label="Expiry:" value="{{exp_date}}" auto-validate always-float-label></gold-cc-expiration-input>
+          <span class="spacer"></span>
+          <gold-cc-cvc-input class="cvc-input exp" label="CVC:" auto-validate value="{{cvc}}" always-float-label></gold-cc-cvc-input>
+        </div>
       </div>
-      <div class="stripe-group">
-        <label class="stripe-label">Expiry Date:</label>
-        <content select="#card_date"></content>
-      </div>
-      <div class="stripe-group">
-        <label class="stripe-label">CVC:</label>
-        <content select="#card_sec"></content>
-      </div>
+        <!--<div class="dot"></div>-->
     </form>
 
   <div class="pay-section">
-    <content select="#card_errors"></content>
-    [[test]]
-    <paper-button id="pay_now" class="pay">Pay Now</paper-button>
+    <div id="card_errors" class="card-errors"></div>
+    <template is="dom-if" if="[[!submitPay]]" restamp="true">
+      <div class="form-errors">{{form_errors}}</span>
+    </template>
+    <paper-button id="pay_now" disabled="[[!formComplete]]" class="pay">Pay £{{totalCost}} Now</paper-button>
   </div>
 
   </template>
@@ -294,7 +332,25 @@ Checkout form element stripe api
     Polymer({
       is: 'checkout-form',
       
+      behaviors: [
+        Polymer.NeonAnimationRunnerBehavior
+      ],
+      
       properties: {
+
+        animationConfig: {
+          value: function() {
+            return {
+              'entry': {
+                name: 'fade-in-animation',
+                node: this.$.added,
+                timing: {
+                  duration: 3000
+                }
+              }
+            }
+          }
+        },
 
         addressTitle: {
           type: Boolean,
@@ -311,6 +367,21 @@ Checkout form element stripe api
           computed: '_computeOrder(customerFirst, customerLast, customerEmail, deliveryLineA, deliveryLineB, deliveryCity, deliveryPostcode, billingLineA, billingLineB, billingCity, billingPostcode)'
         },
 
+        cvc: {
+          type: String,
+          value: '323'
+        },
+
+        exp_date: {
+          type: String,
+          value: '11/19'
+        },
+
+        card_number: {
+          type: String,
+          value: '4111 1111 1111 1111'
+        },
+
         hasBilling: {
           type: Boolean,
           value: false
@@ -318,22 +389,22 @@ Checkout form element stripe api
 
         customerFirst: {
           type: String,
-          value: '',
+          value: 'Tichaona',
         },
 
         customerLast: {
           type: String,
-          value: '',
+          value: 'Farirayi',
         },
 
         customerEmail: {
           type: String,
-          value: '',
+          value: 'your@email.com',
         },
 
         deliveryLineA: {
           type: String,
-          value: '',
+          value: '2 Silver Grove',
         },
 
         deliveryLineB: {
@@ -343,17 +414,17 @@ Checkout form element stripe api
 
         deliveryCity: {
           type: String,
-          value: '',
+          value: 'Southampton',
         },
 
         deliveryPostcode: {
           type: String,
-          value: '',
+          value: 'SO14 1TP',
         },
 
         billingLineA: {
           type: String,
-          value: '',
+          value: '6 Zenover Buildings',
         },
 
         billingLineB: {
@@ -363,12 +434,12 @@ Checkout form element stripe api
 
         billingCity: {
           type: String,
-          value: '',
+          value: 'Southampton',
         },
 
         billingPostcode: {
           type: String,
-          value: '',
+          value: 'SO14 1WJ',
         },
 
         basketData: {
@@ -385,6 +456,15 @@ Checkout form element stripe api
           notify: true
         },
 
+        formComplete: {
+          type: Boolean
+        },
+
+        submitPay: {
+          type: Number,
+          value: 0
+        },
+
         submitUrl: {
           type: String,
           value: 'https://j2su17zxab.execute-api.eu-west-1.amazonaws.com/prod/StripeService'
@@ -393,9 +473,12 @@ Checkout form element stripe api
       },
 
       _computeOrder: function(customerFirst, customerLast, customerEmail, deliveryLineA, deliveryLineB, deliveryCity, deliveryPostcode, billingLineA, billingLineB, billingCity, billingPostcode) {
+        // this.form_errors = '';
+        this._checkForm(customerFirst, customerLast, customerEmail, deliveryLineA, deliveryLineB, deliveryCity, deliveryPostcode, billingLineA, billingLineB, billingCity, billingPostcode);
+
         var order = {
           items: this.basketData,
-          cost: this.totalCost * 100,
+          cost: Math.round(this.totalCost * 100),
           customer: {
             firstName: customerFirst,
             lastName: customerLast,
@@ -439,100 +522,136 @@ Checkout form element stripe api
 
       },
 
+      _checkForm: function (customerFirst, customerLast, customerEmail, deliveryLineA, deliveryLineB, deliveryCity, deliveryPostcode, billingLineA, billingLineB, billingCity, billingPostcode) {
+          if (!customerFirst) this.form_errors = 'First name incomplete';
+          else if (!customerLast) this.form_errors = 'Last name incomplete';
+          else if (!customerEmail) this.form_errors = 'Email address incomplete';
+          else if (!deliveryLineA || !deliveryCity || !deliveryPostcode) {
+            if (this.hasBilling) this.form_errors = 'Delivery address incomplete';
+            if (!this.hasBilling) this.form_errors = 'Address incomplete';
+          }
+          else if (!billingLineA || !billingCity || !billingPostcode) {
+            if (this.hasBilling) this.form_errors = 'Billing address incomplete';
+          }
+          else {
+            this.form_errors = '';
+            return this.formComplete = true;
+          }
+          return this.formComplete = false;
+      },
+
+      _clearValues: function() {
+        this.cvc = '';
+        this.exp_date = '';
+        this.card_number = '';
+        this.deliveryLineA = '';
+        this.deliveryLineB = '';
+        this.deliveryCity = '';
+        this.deliveryPostcode = '';
+        this.billingLineA = '';
+        this.billingLineB = '';
+        this.billingCity = '';
+        this.billingPostcode = '';
+      },  
+
       ready: function() {
 
+        // Attach dom object to function variable
         var main = this;
-        var stripe = Stripe('pk_test_iFA4WGrOjzFb9pgHretwnXlq');
-        var elements = stripe.elements();
-
-        var card_num = this.queryEffectiveChildren('#card_code');
-        var card_exp = this.queryEffectiveChildren('#card_date');
-        var card_cvc = this.queryEffectiveChildren('#card_sec');
-        var error_el = this.queryEffectiveChildren('#card_errors');
         var paymentButton = this.$.pay_now;
-        
-        var style = {
-          style: {
-            base: {
-              fontSize: '16px',
-              lineHeight: '24px',
-              color: 'rgba(236,239,241 ,1)',
-              '::placeholder': {
-                color: 'rgba(69,90,100 ,1)',
-              },
-            }
-          }
+        var error_el = this.$.card_errors;
+
+        // Lambda service object
+        var lambda = new AWS.Lambda({
+            region: 'eu-west-1',
+            apiVersion: '2015-03-31'
+        });
+
+        // Lambda invoke params
+        var tokeniseLambda = {
+            FunctionName : 'tokenise-braintree',
+            InvocationType : 'RequestResponse',
+            LogType: 'Tail'
         };
 
-        // Create Stripe elements from raw elements
-        var cardNumber = elements.create('cardNumber', style);
-        var cardExpiry = elements.create('cardExpiry', style);
-        var cardCvc = elements.create('cardCvc', style);
+        paymentButton.addEventListener('click', function(event) {
+          if (main.formComplete) {
+            getToken();
+          }
 
-        // Mount elements
-        cardNumber.mount(card_num);
-        cardExpiry.mount(card_exp);
-        cardCvc.mount(card_cvc);
-
-        cardNumber.addEventListener('change', function(event) {
-          error_el.textContent = event.error ? event.error.message : '';
         });
         
-        // cardCvc.addEventListener('change', function(event) {
-        //   error_el.textContent = event.error ? event.error.message : '';
-        // });
-
-        paymentButton.addEventListener('click', function(event) {
-          // main.$.pay_now.setAttribute('disabled', false);
-          error_el.textContent = 'Creating Token';
-          
-          stripe.createToken(cardNumber).then(function(result) {
-            if (result.error) {
-              // Inform the user if there was an error
-              // setTimeout(function(){ main.$.pay_now.removeAttribute('disabled'); }, 5000);
-              error_el.textContent = result.error.message;
-              
-            } else {
-              // Send the token.id to your server
-              error_el.textContent = 'Submitting Payment...';
-              submitToken(result.token);
-            }
-          });
-
-        });
-
         // Submit function
-        function submitToken(token) {
-          
-          // Lambda service object
-          var lambda = new AWS.Lambda({
-              region: 'eu-west-1',
-              apiVersion: '2015-03-31'
-          });
-
-          // Lambda invoke params
-          var lambdaParams = {
-              FunctionName : 'pay-stripe',
-              InvocationType : 'RequestResponse',
-              LogType: 'Tail',
-              Payload: JSON.stringify({
-                  "order": main.order,
-                  "token": token.id
-              }),
-          };
-
+        function getToken() {
           // Lambda invoke!
-          lambda.invoke(lambdaParams, function(err, data) {
+          error_el.textContent = 'Verifying Domain...';
+          
+          lambda.invoke(tokeniseLambda, function(err, data) {
             if (err) {
-                main.$.pay_now.removeAttribute('disabled'); 
+              // error_el.textContent = 'Verifying Domain...';
+              console.log(err);
             } else {
-              var result = JSON.parse(data.Payload)
-              result.type === 'authorized' ? error_el.textContent = result.seller_message : error_el.textContent = result.message;
-              console.log(result);
+              var clientToken = JSON.parse(data.Payload)
+
+              braintree.client.create({
+                authorization: clientToken
+
+              }, function(err, clientInstance) {
+
+                if (err) return error_el.textContent = err.mesage;
+
+                error_el.textContent = 'Submitting Request...';
+                clientInstance.request({
+                    endpoint: 'payment_methods/credit_cards',
+                    method: 'post',
+                    data: {
+                      creditCard: {
+                        number: main.card_number,
+                        expirationDate: main.exp_date,
+                        cvv: main.cvc,
+                        billingAddress: {
+                          postalCode: main.billingPostcode
+                        }
+                      }
+                    }
+                  }, function(reqErr, response) {
+                    if (reqErr) error_el.textContent = reqErr.details.originalError.error.message;
+                    if (response) {
+                      // Clear credit card on success
+                      main.nonce = response.creditCards[0].nonce;
+                      var nonceLambda = {
+                        FunctionName : 'consume-nonce',
+                        InvocationType : 'RequestResponse',
+                        LogType: 'Tail',
+                        Payload: JSON.stringify({
+                          nonce: main.nonce,
+                          totalCost: main.totalCost
+                        }),
+                      };
+
+                      lambda.invoke(nonceLambda, function(err, data) {
+                        if (err) { console.log(err); } 
+                        if (data) {
+                          main.submitPay = main.submitPay + 1;
+                          main._clearValues();
+                          main.fire('clear-basket',{});
+                          if (data.Payload = 'submitted_for_settlement') {
+
+                            error_el.textContent = 'Thank you for your payment. We have emailed your confirmation.';
+                          }
+                        }
+
+                      });
+                      
+                    }
+
+                  });
+
+              });
+
             }
 
           });
-
         }
 
       }

@@ -18,7 +18,11 @@
   
   "extraDependencies": [
     "manifest.json",
-    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js",
+    "bower_components/gold-cc-input/gold-cc-input.html",
+    "bower_components/gold-cc-expiration-input/gold-cc-expiration-input.html",
+    "bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html"   
+
   ],
 
   "builds": [{

@@ -2,7 +2,6 @@
 Welcome box element
 @tfarirayi1
 -->
-
 <!-- Polymer dependency -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- Paper elements -->
@@ -13,26 +12,22 @@ Welcome box element
     <style>
       :host {
         display: block;
+        background-color: rgba(207,216,220 ,1);
+        box-sizing: border-box;
+        border: 1px solid #FF8A65;
+        border-radius: 8px;
+        color: #212121;
+        font-family: 'Raleway', sans-serif;
         max-width: 300px;
         margin-left: auto;
         margin-right: auto;
-        background-color: #ECEFF1;
-        background-color: rgba(207,216,220 ,1);
-        border-radius: 8px;
-        color: #212121;
-        padding: 13px;
         margin-top: -13px; 
-        box-sizing: border-box;
-        border: 1px solid #FF8A65;
-        /*background-color: #455A64;*/
-        font-family: 'Cabin', sans-serif;  
-        font-family: 'Raleway', sans-serif;
+        padding: 13px;
         @apply(--shadow-elevation-2dp); 
       }
 
       .main {
         text-align: center;
-        color: #CFD8DC;
         color: #212121;
       }
 
@@ -59,7 +54,7 @@ Welcome box element
         text-decoration: none;
       }
     </style>
-    <!-- Dom here -->
+    <!-- Local dom here -->
     <div class="main"><p>
       Welcome to the demo site of our ESHOP implementation. <br><br>Use the card details provided to make a pseudo purchase. Your order will be processed and you will be alerted through the email you supply.</p>
     </div>
@@ -73,14 +68,8 @@ Welcome box element
 
   <script>
     Polymer({
-      is: 'welcome-box',
-
-      _log: function() {
-
-       this.fire('scrollpos', {});
-
-      }
-
+      is: 'welcome-box'
+      
     });
   </script>
 </dom-module>

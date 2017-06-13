@@ -57,7 +57,7 @@ Shop basket element
       created: function() {
         this.removeAttribute('unresolved');
         Polymer.RenderStatus.afterNextRender(this, function() {
-          this.importHref(this.resolveUrl('checkout-form.html'), null, null, true);
+          this.importHref(this.resolveUrl('shop-checkout.html'), null, null, true);
         });
       },
 

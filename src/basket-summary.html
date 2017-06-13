@@ -57,15 +57,24 @@ Basket summayy element
         --iron-icon-width: 18px;
       }
 
-      paper-button {
+      paper-button.basket-btn {
         font-family: 'Cabin', sans-serif;  
         font-size: 15px;
         color: #263238;
         background-color: #B0BEC5;
-        margin: 3px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        margin-left: auto;
+        margin-right: auto;
         padding: 5px;
         width: 100%;
       }
+
+      /*paper-button.checkout {
+        background-color: rgba(38,50,56 ,0.9);
+        border-radius: 2px;
+        color: rgba(255,138,101 ,1);
+      }*/
 
       paper-button.shop {
         margin: auto;
@@ -145,10 +154,13 @@ Basket summayy element
           <span class="digit">[[_formatTotal(totalCost)]]</span>        
         </div>
         <div class="controls">
-          <paper-button on-click="_emptyCart"><iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket</paper-button>
-            <a href="/checkout">
-          <paper-button><iron-icon icon="icon:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
-            </a>
+          <paper-button on-click="_emptyCart" class="basket-btn">
+            <iron-icon icon="icon:remove-circle"></iron-icon><span class="spacer"></span>Empty basket
+          </paper-button>
+          
+          <a href="/checkout">
+            <paper-button raised class="basket-btn checkout"><iron-icon icon="icon:payment"></iron-icon><span class="spacer"></span>Checkout</paper-button>
+          </a>
         </div>
       </div>
     </template>
