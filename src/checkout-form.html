@@ -31,7 +31,7 @@ Checkout form element stripe api
       :host {
         display: block;
         background-color: #455A64;
-        border: 1px solid rgba(255,138,101 ,1);
+        border: 1px groove rgba(255,138,101 ,1);
         border-radius: 8px;
         box-sizing: border-box;
         margin-left: auto;
@@ -323,7 +323,7 @@ Checkout form element stripe api
     <template is="dom-if" if="[[!submitPay]]" restamp="true">
       <div class="form-errors">{{form_errors}}</span>
     </template>
-    <paper-button id="pay_now" disabled="[[!formComplete]]" class="pay">Pay £{{totalCost}} Now</paper-button>
+    <paper-button id="pay_now" disabled="[[!formComplete]]" class="pay">Pay £{{totalCost}}</paper-button>
   </div>
 
   </template>
