@@ -16,13 +16,10 @@ Checkout form element stripe api
 <link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-in-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
-<!-- Gold elements -->
-<link rel="import" href="../bower_components/gold-cc-input/gold-cc-input.html">
-<link rel="import" href="../bower_components/gold-cc-expiration-input/gold-cc-expiration-input.html">
-<link rel="import" href="../bower_components/gold-cc-cvc-input/gold-cc-cvc-input.html">
+<!-- Stripe Elements -->
+<link rel="import" href="../bower_components/stripe-elements/stripe-elements.html">
 <!-- Custom elements -->
 <link rel="import" href="aws-sdk.html">
-<link rel="import" href="braintree-sdk.html">
 <link rel="import" href="my-icons.html">
 
 <dom-module id="checkout-form">
@@ -305,23 +302,12 @@ Checkout form element stripe api
       <paper-button class="billing" on-click="_toggleBilling" noink>[[toggleTitle]]</paper-button>
     </div>
 
-    <form id="payment_form" class="form card">
-      <div class="field">
-        {{cardNumber}}
-        <gold-cc-input class="number-input" label="Card Number:" value="{{card_number}}" auto-validate error-message="Card type unrecognised..." always-float-label></gold-cc-input>
-        <div class="field-row">
-          <gold-cc-expiration-input class="exp-input exp" label="Expiry:" value="{{exp_date}}" auto-validate always-float-label></gold-cc-expiration-input>
-          <span class="spacer"></span>
-          <gold-cc-cvc-input class="cvc-input exp" label="CVC:" auto-validate value="{{cvc}}" always-float-label></gold-cc-cvc-input>
-        </div>
-      </div>
-        <!--<div class="dot"></div>-->
-    </form>
+      <stripe-elements publishable-key="[[stripeKey]]" token="{{token}}"></stripe-elements>
 
   <div class="pay-section">
     <div id="card_errors" class="card-errors"></div>
     <template is="dom-if" if="[[!submitPay]]" restamp="true">
-      <div class="form-errors">{{form_errors}}</span>
+      <div class="form-errors">{{form_errors}}</div>
     </template>
     <paper-button id="pay_now" disabled="[[!formComplete]]" class="pay">Pay £{{totalCost}}</paper-button>
   </div>
@@ -350,6 +336,15 @@ Checkout form element stripe api
               }
             }
           }
+        },
+
+        stripeKey: {
+          type: String,
+          value: 'pk_test_iFA4WGrOjzFb9pgHretwnXlq'
+        },
+
+        token: {
+          type: String
         },
 
         addressTitle: {

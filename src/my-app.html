@@ -18,8 +18,10 @@ Main application container element
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<!-- Vaadin -->
+<link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
 <!-- Google fonts -->
-<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Roboto+Condensed|Oswald|Cabin|Comfortaa" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Arvo|Raleway|Share+Tech+Mono|Roboto+Condensed|Oswald|Cabin|Comfortaa" rel="stylesheet">
 <!-- Custom elements -->
 <link rel="import" href="my-icons.html">
 <link rel="import" href="my-styles.html">
@@ -55,6 +57,8 @@ Main application container element
         color: #263238;
         --paper-fab-background: #ECEFF1;
         --paper-fab-keyboard-focus-background: #CFD8DC;
+        @apply(--shadow-elevation-4dp);
+        /*border: 1px solid rgba(255,138,101 ,0.5);*/
       }
 
       iron-pages {
@@ -66,11 +70,16 @@ Main application container element
       }
 
       paper-badge.numitems {
-        font-family: 'Cabin', sans-serif;  
-        --paper-badge-background: #263238;
-        --paper-badge-text-color: rgba(255,138,101 ,0.9);
-        --paper-badge-width: 30px;
-        --paper-badge-height: 30px;
+        --paper-badge-background:transparent;
+        --paper-badge-text-color: rgba(38,50,56 ,1);
+        --paper-badge-width: 20px;
+        --paper-badge-height: 20px;
+        --paper-badge: {
+          font-family: 'Share Tech Mono', monospace;  
+          font-size: 13px;
+          font-weight: 600;
+          text-shadow: 1px 1px rgba(255,138,101 ,0.6);
+        }
       }
 
       .tools {
@@ -80,7 +89,7 @@ Main application container element
       }
 
       .home {
-        color: rgba(255,138,101 ,0.8);
+        color: rgba(255,138,101 ,0.9);
       }
 
       .home:hover {
@@ -88,11 +97,11 @@ Main application container element
       }
 
       a {
-        color: #546E7A;
+        color: rgba(38,50,56 ,1);
       }
 
       a:hover {
-        color: #78909C;
+        color: rgba(38,50,56 ,0.8);
       }
 
       iron-icon {
@@ -118,7 +127,7 @@ Main application container element
 
         <!-- Header Content -->
         <app-header-layout fullbleed>
-          <app-header condenses id="header" fixed>
+          <app-header condenses id="header" reveals>
             <!-- Toolbar -->
             <app-toolbar class="top-bar">
               <div class="tools">
@@ -126,18 +135,16 @@ Main application container element
                     <iron-icon icon="icon:domain"></iron-icon>
                   </a>
 
-                  <span class="spacer"></span>
-
-                  <a href="/info">
-                    <iron-icon icon="icon:info-outline"></iron-icon>
-                  </a>
-
                   <a href="/phone">
-                    <iron-icon icon="icon:phone-iphone"></iron-icon>
+                    <iron-icon icon="vaadin:mobile-retro"></iron-icon>
                   </a>
 
                   <a href="/contact">
-                    <iron-icon icon="icon:mail"></iron-icon>
+                    <iron-icon icon="vaadin:envelope-o"></iron-icon>
+                  </a>
+
+                  <a href="/info">
+                    <iron-icon icon="vaadin:info-circle-o"></iron-icon>
                   </a>
               </div>
             </app-toolbar>
@@ -148,8 +155,9 @@ Main application container element
                   <a href="/basket">
                 <paper-fab id="basket-icon" class="basket" mini icon="icon:shopping-basket"></paper-fab>
                   </a>
-                
-                <paper-badge class="numitems" for="basket-icon" label="[[numItems]]"></paper-badge>
+                <template is="dom-if" if="[[numItems]]">
+                  <paper-badge class="numitems" for="basket-icon" label="[[numItems]]"></paper-badge>
+                </template>
                 </div>
             </app-toolbar>
           </app-header>
