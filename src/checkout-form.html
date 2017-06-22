@@ -98,6 +98,17 @@ Checkout form element stripe api
         
       }
 
+      stripe-elements {
+        padding: 13px;
+        --paper-button: {
+          background-color: blue;
+          color: white;
+        }
+        --stripe-elements-element: {
+          width: 300px;
+        }
+      }
+
       .section {
         box-sizing: border-box;
         color: rgba(207,216,220 ,1);
@@ -302,7 +313,9 @@ Checkout form element stripe api
       <paper-button class="billing" on-click="_toggleBilling" noink>[[toggleTitle]]</paper-button>
     </div>
 
-      <stripe-elements publishable-key="[[stripeKey]]" token="{{token}}"></stripe-elements>
+
+    <stripe-elements publishable-key="[[stripeKey]]" token="{{token}}"></stripe-elements>
+    <show-json hide-copy-button json="[[token]]"></show-json>
 
   <div class="pay-section">
     <div id="card_errors" class="card-errors"></div>

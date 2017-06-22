@@ -33,10 +33,15 @@
     "gold-cc-cvc-input": "PolymerElements/gold-cc-cvc-input#^1.0.10",
     "cc-form": "vic10us/cc-form#^1.0.12",
     "stripe-elements": "bennypowers/stripe-elements#^0.1.1",
-    "vaadin-icons": "vaadin/vaadin-icons#^4.1.0"
+    "vaadin-icons": "^4.1.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "webcomponentsjs": "^0.7.24",
+    "iron-iconset-svg": "^1.0.0",
+    "iron-icon": "^1.0.13"
+  }
 }
